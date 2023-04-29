@@ -4,6 +4,10 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 const routes: Routes = [
   {
+    path: 'api',
+    loadChildren: () => import('./api/api.module').then((m) => m.ApiModule),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
