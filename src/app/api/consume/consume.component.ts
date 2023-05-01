@@ -1,18 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs';
+import { ConsumeService } from './consume.service';
 
 @Component({
   template: '<p>Acessar a API</p>',
 })
 export class ConsumeComponent implements OnInit {
-  constructor(private route: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private _route: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _service: ConsumeService
+  ) {}
 
   ngOnInit(): void {
-    const uri: string = this.route.url.split(this._path!)[1];
-    console.log('url completa:', uri);
+    this._service
+      .getUrlToApi()
+      .pipe(map((data) => data.concat(this._paramsToAccessAPI)))
+      .subscribe((data) => {
+        console.log('url completa', data);
+      });
   }
 
-  private get _path() {
-    return this.activatedRoute.snapshot.root.firstChild?.routeConfig?.path;
+  private get _paramsToAccessAPI() {
+    const path =
+      this._activatedRoute.snapshot.root.firstChild?.routeConfig?.path;
+    return this._route.url.split(path!)[1];
   }
 }
