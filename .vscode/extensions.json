@@ -1,4 +1,16 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
-  "recommendations": ["angular.ng-template"]
+  "recommendations": [
+    "angular.ng-template",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "johnpapa.angular-essentials",
+    "johnpapa.angular2",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "editorconfig.editorconfig",
+    "k--kato.intellij-idea-keybindings",
+    "pkief.material-icon-theme",
+    "johnpapa.vscode-peacock",
+    "ms-vscode-remote.remote-wsl"
+  ]
 }
