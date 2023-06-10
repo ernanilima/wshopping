@@ -9,7 +9,7 @@ import { API } from '../model/api.model';
 export class ConsumeService {
   constructor(private _http: HttpClient) {}
 
-  public getUrlToApi(): Observable<String> {
+  public getUrlToApi(): Observable<string> {
     return this._http.get<API>('assets/api.json').pipe(map((data) => data.url));
   }
 }

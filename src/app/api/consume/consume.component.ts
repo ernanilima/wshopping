@@ -13,7 +13,7 @@ export class ConsumeComponent implements OnInit {
     private _service: ConsumeService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this._service
       .getUrlToApi()
       .pipe(map((data) => data.concat(this._paramsToAccessAPI)))
@@ -22,7 +22,7 @@ export class ConsumeComponent implements OnInit {
       });
   }
 
-  private get _paramsToAccessAPI() {
+  private get _paramsToAccessAPI(): string {
     const path =
       this._activatedRoute.snapshot.root.firstChild?.routeConfig?.path;
     return this._route.url.split(path!)[1];
