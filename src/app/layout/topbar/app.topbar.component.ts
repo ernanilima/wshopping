@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/layout.service';
 
 @Component({
@@ -6,5 +6,7 @@ import { LayoutService } from 'src/app/layout/service/layout.service';
   templateUrl: './app.topbar.component.html',
 })
 export class AppTopbarComponent {
+  @ViewChild('menubutton') public menuButton: ElementRef;
+
   constructor(public layoutService: LayoutService) {}
 }
