@@ -1,0 +1,27 @@
+<ng-container>
+  <div *ngIf="root" class="layout-menuitem-root-text">
+    {{ item.label }}
+  </div>
+  <a
+    *ngIf="isMenuItem(item)"
+    (click)="itemClick(menuItem)"
+    [routerLink]="menuItem.routerLink"
+    routerLinkActive="active-route"
+    [routerLinkActiveOptions]="{
+      paths: 'exact',
+      queryParams: 'ignored',
+      matrixParams: 'ignored',
+      fragment: 'ignored'
+    }"
+    tabindex="0"
+    pRipple>
+    <i [ngClass]="menuItem.icon" class="layout-menuitem-icon"></i>
+    <span class="layout-menuitem-text">{{ item.label }}</span>
+  </a>
+
+  <ul *ngIf="!isMenuItem(item)">
+    <ng-template ngFor let-child let-i="index" [ngForOf]="menuCategory.items">
+      <li app-menuitem [item]="child" [index]="i"></li>
+    </ng-template>
+  </ul>
+</ng-container>
