@@ -25,12 +25,12 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Marca',
             icon: 'pi pi-fw pi-box',
-            routerLink: ['/'],
+            routerLink: ['/marca'],
           },
           {
             label: 'Produto',
             icon: 'pi pi-fw pi-shopping-cart',
-            routerLink: ['/'],
+            routerLink: ['/produto'],
           },
         ],
       },
