@@ -1,4 +1,6 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 import { LayoutService } from 'src/app/layout/service/layout.service';
 import { AppSidebarComponent } from 'src/app/layout/sidebar/app.sidebar.component';
@@ -13,7 +15,8 @@ export class MainComponent {
 
   constructor(
     private _layoutService: LayoutService,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
+    private _router: Router
   ) {
     this._layoutService.overlayOpen$.subscribe(() => {
       this._renderer.listen('document', 'click', (event) => {
@@ -29,6 +32,12 @@ export class MainComponent {
         }
       });
     });
+
+    this._router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this._hideMenu();
+      });
   }
 
   private _hideMenu(): void {
