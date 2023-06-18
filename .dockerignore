@@ -1,0 +1,13 @@
+**/.git
+**/.env
+**/.gitignore
+**/.vscode
+**/Dockerfile*
+**/.dockerignore
+**/dist
+**/node_modules
+**/docker-compose*
+**/.angular
+package-lock.json
+LICENSE
+README.md

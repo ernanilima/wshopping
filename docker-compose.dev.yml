@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  wshopping:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - 4200:4200
+    volumes:
+      - .:/home/node/dev/wshopping
