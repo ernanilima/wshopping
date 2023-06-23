@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BrandDto } from '../model/brand.dto';
+import { Response } from 'src/app/shared/params/response';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,9 @@ import { BrandDto } from '../model/brand.dto';
 export class BrandService {
   constructor(private _http: HttpClient) {}
 
-  public findAll(): Observable<BrandDto[]> {
+  public findAll(): Observable<Response<BrandDto[]>> {
     return this._http
-      .get<BrandDto[]>(`${environment.baseUrl}/v1/marca`)
+      .get<Response<BrandDto[]>>(`${environment.baseUrl}/v1/marca`)
       .pipe(take(1));
   }
 }
