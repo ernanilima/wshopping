@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { CardModule } from 'primeng/card';
+import { TableModule } from 'primeng/table';
 import { LayoutModule } from '../layout/layout.module';
 import { BrandComponent } from './brand/brand.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -16,6 +17,12 @@ import { ProductComponent } from './product/product.component';
     BrandComponent,
     ProductComponent,
   ],
-  imports: [CommonModule, PagesRoutingModule, LayoutModule, CardModule],
+  imports: [
+    CommonModule,
+    PagesRoutingModule,
+    LayoutModule,
+    CardModule,
+    TableModule,
+  ],
 })
 export class PagesModule {}
