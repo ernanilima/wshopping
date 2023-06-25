@@ -18,7 +18,9 @@ export class BrandService {
 
   public findAll(): Observable<Response<BrandDto[]>> {
     return this._http
-      .get<Response<BrandDto[]>>(`${environment.baseUrl}/v1/marca`)
+      .get<Response<BrandDto[]>>(
+        `${environment.baseUrl}/v1/marca?sort=code,asc`
+      )
       .pipe(
         map((resp: Response<BrandDto[]>) => ({
           ...resp,
@@ -30,7 +32,7 @@ export class BrandService {
 
   private filter(dto: BrandDto): BrandDto {
     return {
-      code: dto.code,
+      ...dto,
       description: this._titlecase.transform(dto.description),
       created_at: this._datePipe.transform(dto.created_at, 'dd/MM/yyyy HH:mm'),
     };

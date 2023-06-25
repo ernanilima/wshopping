@@ -3,6 +3,7 @@ import { Columns } from 'src/app/shared/columns';
 export interface BrandDto {
   code: number;
   description: string;
+  total_products: number;
   created_at: string;
 }
 
@@ -16,6 +17,11 @@ export const brandColumns: Columns[] = [
     name: 'Descrição',
     field: 'description',
     type: 'text',
+  },
+  {
+    name: 'Produtos Totais',
+    field: 'total_products',
+    type: 'numeric',
   },
   {
     name: 'Criação',

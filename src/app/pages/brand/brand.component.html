@@ -10,7 +10,8 @@
   [totalRecords]="brands?.totalElements"
   [rowsPerPageOptions]="[10, 25, 50]"
   [loading]="loading"
-  currentPageReportTemplate="{first} até {last} de {totalRecords}">
+  currentPageReportTemplate="{first} até {last} de {totalRecords}"
+  [tableStyle]="{ 'min-width': '45rem' }">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns">
