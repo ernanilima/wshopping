@@ -4,7 +4,12 @@
   [rowHover]="true"
   [paginator]="true"
   [rows]="10"
+  [lazy]="true"
+  (onLazyLoad)="findBrands($event)"
+  [showCurrentPageReport]="true"
+  [totalRecords]="brands?.totalElements"
   [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading"
   currentPageReportTemplate="{first} até {last} de {totalRecords}">
   <ng-template pTemplate="header" let-columns>
     <tr>
