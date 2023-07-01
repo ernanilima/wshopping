@@ -12,6 +12,7 @@ export const brandColumns: Columns[] = [
     name: 'Código',
     field: 'code',
     type: 'numeric',
+    defaultSort: true,
   },
   {
     name: 'Descrição',

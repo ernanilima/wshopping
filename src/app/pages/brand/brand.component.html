@@ -11,11 +11,12 @@
   [rowsPerPageOptions]="[10, 25, 50]"
   [loading]="loading"
   currentPageReportTemplate="{first} até {last} de {totalRecords}"
-  [tableStyle]="{ 'min-width': '45rem' }">
+  [tableStyle]="{ 'min-width': '45rem' }"
+  [sortField]="defaultSort">
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let column of columns">
-        <div>{{ column.name }}</div>
+      <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
+        {{ column.name }} <p-sortIcon field="{{ column.field }}"></p-sortIcon>
       </th>
     </tr>
   </ng-template>

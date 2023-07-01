@@ -1,6 +1,7 @@
 import { TableLazyLoadEvent } from 'primeng/table';
 
 interface PageQuery {
+  sort: string;
   pageNumber: number;
   pageSize: number;
 }
@@ -14,7 +15,9 @@ export class PageParams implements PageBuilder {
   constructor(public pageQuery: PageQuery) {}
 
   public static of(event: TableLazyLoadEvent): PageParams {
+    const sortOrder = event.sortOrder === 1 ? 'asc' : 'desc';
     return new PageParams({
+      sort: `${event.sortField},${sortOrder}`,
       pageNumber: event.first / event.rows,
       pageSize: event.rows,
     });
@@ -32,6 +35,7 @@ export class PageParams implements PageBuilder {
 
   private _buildPageQueryMap(): Map<string, string> {
     const buildPageQueryMap = new Map<string, string>();
+    buildPageQueryMap.set('sort', `${this.pageQuery.sort}`);
     buildPageQueryMap.set('page', `${this.pageQuery.pageNumber}`);
     buildPageQueryMap.set('size', `${this.pageQuery.pageSize}`);
     return buildPageQueryMap;
