@@ -1,4 +1,4 @@
-export interface Response<E> {
+export interface Page<E> {
   content: E;
   totalPages: number;
   totalElements: number;

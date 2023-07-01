@@ -1,10 +1,11 @@
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, take } from 'rxjs';
+import { PageBuilder } from 'src/app/shared/params/page-params';
+import { Page } from 'src/app/shared/params/page-response';
 import { environment } from 'src/environments/environment';
 import { BrandDto } from '../model/brand.dto';
-import { Response } from 'src/app/shared/params/response';
-import { DatePipe, TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +17,13 @@ export class BrandService {
     private _datePipe: DatePipe
   ) {}
 
-  public findAll(): Observable<Response<BrandDto[]>> {
+  public findAll(pageBuilder: PageBuilder): Observable<Page<BrandDto[]>> {
     return this._http
-      .get<Response<BrandDto[]>>(
-        `${environment.baseUrl}/v1/marca?sort=code,asc`
+      .get<Page<BrandDto[]>>(
+        `${environment.baseUrl}/v1/marca?${pageBuilder.pageQueryString()}`
       )
       .pipe(
-        map((resp: Response<BrandDto[]>) => ({
+        map((resp: Page<BrandDto[]>) => ({
           ...resp,
           content: resp.content.map((dto) => this.filter(dto)),
         }))

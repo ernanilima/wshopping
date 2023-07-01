@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
-import { Response } from 'src/app/shared/params/response';
+import { PageParams } from 'src/app/shared/params/page-params';
+import { Page } from 'src/app/shared/params/page-response';
 import { BrandDto, brandColumns } from './model/brand.dto';
 import { BrandService } from './service/brand.service';
 
@@ -8,22 +9,18 @@ import { BrandService } from './service/brand.service';
   selector: 'app-brand',
   templateUrl: './brand.component.html',
 })
-export class BrandComponent implements OnInit {
+export class BrandComponent {
   public loading = true;
   public columns = brandColumns;
-  public brands: Response<BrandDto[]>;
+  public brands: Page<BrandDto[]>;
 
   constructor(private _service: BrandService) {}
 
-  public ngOnInit(): void {
-    this.findBrands();
-  }
-
-  public findBrands(event: TableLazyLoadEvent = null): void {
-    console.log(event);
+  public findBrands(event: TableLazyLoadEvent): void {
+    const params = PageParams.of(event);
 
     this.loading = true;
-    this._service.findAll().subscribe((brands: Response<BrandDto[]>) => {
+    this._service.findAll(params).subscribe((brands: Page<BrandDto[]>) => {
       this.brands = brands;
       this.loading = false;
     });
