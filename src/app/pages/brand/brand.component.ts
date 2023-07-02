@@ -26,9 +26,11 @@ export class BrandComponent {
     const params = PageParams.of(event);
 
     this.loading = true;
-    this._service.findAll(params).subscribe((brands: Page<BrandDto[]>) => {
-      this.brands = brands;
-      this.loading = false;
-    });
+    this._service
+      .findAllBrands(params)
+      .subscribe((brands: Page<BrandDto[]>) => {
+        this.brands = brands;
+        this.loading = false;
+      });
   }
 }

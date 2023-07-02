@@ -17,10 +17,29 @@ export class BrandService {
     private _datePipe: DatePipe
   ) {}
 
-  public findAll(pageBuilder: PageBuilder): Observable<Page<BrandDto[]>> {
+  public findAllBrands(pageBuilder: PageBuilder): Observable<Page<BrandDto[]>> {
+    const params = pageBuilder.pageQueryString();
+
+    return this._http
+      .get<Page<BrandDto[]>>(`${environment.baseUrl}/v1/marca?${params}`)
+      .pipe(
+        map((resp: Page<BrandDto[]>) => ({
+          ...resp,
+          content: resp.content.map((dto) => this.filter(dto)),
+        }))
+      )
+      .pipe(take(1));
+  }
+
+  public findAllBrandsByDescription(
+    description: string,
+    pageBuilder: PageBuilder
+  ): Observable<Page<BrandDto[]>> {
+    const params = pageBuilder.pageQueryString();
+
     return this._http
       .get<Page<BrandDto[]>>(
-        `${environment.baseUrl}/v1/marca?${pageBuilder.pageQueryString()}`
+        `${environment.baseUrl}/v1/marca/descricao/${description}?${params}`
       )
       .pipe(
         map((resp: Page<BrandDto[]>) => ({
