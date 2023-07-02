@@ -1,4 +1,5 @@
 <p-table
+  #table
   [columns]="columns"
   [value]="brands?.content"
   [rowHover]="true"
@@ -12,7 +13,21 @@
   [loading]="loading"
   currentPageReportTemplate="{first} até {last} de {totalRecords}"
   [tableStyle]="{ 'min-width': '45rem' }"
-  [sortField]="defaultSort">
+  [sortField]="defaultSort"
+  [globalFilterFields]="[filterField.field]">
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between flex-column sm:flex-row">
+      <span class="p-input-icon-left mb-2">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="onGlobalFilter(table, $event)"
+          [placeholder]="filterField.name"
+          class="w-full" />
+      </span>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
