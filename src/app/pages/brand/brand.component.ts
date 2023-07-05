@@ -28,7 +28,10 @@ export class BrandComponent {
   constructor(private _service: BrandService) {}
 
   public findBrands(eventParams: TableLazyLoadEvent): void {
-    if (Object.keys(eventParams.filters).length === 0) {
+    if (
+      Object.keys(eventParams.filters).length === 0 ||
+      !this._getFilter(eventParams)
+    ) {
       this._findAllBrands(eventParams);
     } else {
       this._findAllBrandsByDescription(eventParams);
@@ -57,6 +60,12 @@ export class BrandComponent {
   private _handleBrandResult(brands: Page<BrandDto[]>): void {
     this.brands = brands;
     this.loading = false;
+  }
+
+  public clear(table: Table, filter: HTMLInputElement): void {
+    filter.value = null;
+    table.clearFilterValues();
+    table.sortSingle();
   }
 
   private _getFilter(eventParams: TableLazyLoadEvent): string {
