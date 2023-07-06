@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,6 +22,7 @@ import { ProductComponent } from './product/product.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PagesRoutingModule,
     LayoutModule,
     CardModule,

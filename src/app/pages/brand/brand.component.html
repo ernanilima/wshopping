@@ -30,6 +30,8 @@
           pInputText
           type="text"
           (input)="onGlobalFilter(table, $event)"
+          [ngModel]="value | titlecase"
+          (ngModelChange)="value = $event"
           [placeholder]="filterField.name"
           class="w-full" />
       </span>

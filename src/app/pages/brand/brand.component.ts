@@ -15,6 +15,7 @@ export class BrandComponent {
   public loading = true;
   public columns = brandColumns;
   public brands: Page<BrandDto[]>;
+  public value = '';
 
   public get defaultSort(): string {
     const column = this.columns.find((c: Columns) => c.defaultSort);
@@ -63,7 +64,8 @@ export class BrandComponent {
   }
 
   public clear(table: Table, filter: HTMLInputElement): void {
-    filter.value = null;
+    this.value = null;
+    filter.value = this.value;
     table.clearFilterValues();
     table.sortSingle();
   }
@@ -76,6 +78,7 @@ export class BrandComponent {
   }
 
   public onGlobalFilter(table: Table, event: Event): void {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    this.value = (event.target as HTMLInputElement).value;
+    table.filterGlobal(this.value, 'contains');
   }
 }
