@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FilterMetadata } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { catchError, of } from 'rxjs';
 import { Columns } from 'src/app/shared/columns';
 import { PageParams } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
@@ -45,6 +46,7 @@ export class BrandComponent {
     this.loading = true;
     this._service
       .findAllBrands(params)
+      .pipe(catchError(() => of(null)))
       .subscribe(this._handleBrandResult.bind(this));
   }
 
@@ -55,6 +57,7 @@ export class BrandComponent {
     this.loading = true;
     this._service
       .findAllBrandsByDescription(description, params)
+      .pipe(catchError(() => of(null)))
       .subscribe(this._handleBrandResult.bind(this));
   }
 
