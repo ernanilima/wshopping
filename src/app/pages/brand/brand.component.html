@@ -1,52 +1,57 @@
-<p-table
-  #table
-  [columns]="columns"
-  [value]="brands?.content"
-  [rowHover]="true"
-  [paginator]="true"
-  [rows]="10"
-  [lazy]="true"
-  (onLazyLoad)="findBrands($event)"
-  [showCurrentPageReport]="true"
-  [totalRecords]="brands?.totalElements"
-  [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading"
-  currentPageReportTemplate="{first} até {last} de {totalRecords}"
-  [tableStyle]="{ 'min-width': '45rem' }"
-  [sortField]="defaultSort"
-  [globalFilterFields]="[filterField.field]">
-  <ng-template pTemplate="caption">
-    <div class="flex justify-content-between flex-column sm:flex-row">
-      <button
-        pButton
-        label="Limpar filtro"
-        class="p-button-outlined mb-2"
-        icon="pi pi-filter-slash"
-        (click)="clear(table, filter)"></button>
-      <span class="p-input-icon-left mb-2">
-        <i class="pi pi-search"></i>
-        <input
-          #filter
-          pInputText
-          type="text"
-          (input)="onGlobalFilter(table, $event)"
-          [ngModel]="value | titlecase"
-          (ngModelChange)="value = $event"
-          [placeholder]="filterField.name"
-          class="w-full" />
-      </span>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header" let-columns>
-    <tr>
-      <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
-        {{ column.name }} <p-sortIcon field="{{ column.field }}"></p-sortIcon>
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-item let-columns="columns">
-    <tr>
-      <td *ngFor="let column of columns">{{ item[column.field] }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+<p-card>
+  <div class="flex justify-content-between flex-column sm:flex-row mb-3">
+    <button
+      pButton
+      label="Limpar filtro"
+      class="p-button-outlined mb-2"
+      icon="pi pi-filter-slash"
+      (click)="clear(table, filter)"></button>
+    <span class="p-input-icon-left mb-2">
+      <i class="pi pi-search"></i>
+      <input
+        #filter
+        pInputText
+        type="text"
+        (input)="onGlobalFilter(table, $event)"
+        [ngModel]="value | titlecase"
+        (ngModelChange)="value = $event"
+        [placeholder]="filterField.name"
+        class="w-full" />
+    </span>
+  </div>
+
+  <div *ngIf="brands == null" class="flex justify-content-center flex-wrap">
+    <p>Nenhum registro cadastrado</p>
+  </div>
+
+  <p-table
+    #table
+    [columns]="columns"
+    [value]="brands?.content"
+    [rowHover]="true"
+    [paginator]="brands != null"
+    [rows]="10"
+    [lazy]="true"
+    (onLazyLoad)="findBrands($event)"
+    [showCurrentPageReport]="true"
+    [totalRecords]="brands?.totalElements"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    currentPageReportTemplate="{first} até {last} de {totalRecords}"
+    [tableStyle]="{ 'min-width': '45rem' }"
+    [sortField]="defaultSort"
+    [globalFilterFields]="[filterField.field]">
+    <ng-template pTemplate="header" let-columns>
+      <tr *ngIf="brands != null">
+        <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
+          {{ column.name }} <p-sortIcon field="{{ column.field }}"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-columns="columns">
+      <tr>
+        <td *ngFor="let column of columns">{{ item[column.field] }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
