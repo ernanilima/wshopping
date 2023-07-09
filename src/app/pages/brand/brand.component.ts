@@ -84,4 +84,8 @@ export class BrandComponent {
     this.value = (event.target as HTMLInputElement).value;
     table.filterGlobal(this.value, 'contains');
   }
+
+  public openNew(): void {
+    console.log('Abrir para CADASTRAR MARCA');
+  }
 }

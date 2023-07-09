@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
 import { LayoutModule } from '../layout/layout.module';
 import { BrandComponent } from './brand/brand.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -29,6 +30,7 @@ import { ProductComponent } from './product/product.component';
     TableModule,
     ButtonModule,
     InputTextModule,
+    ToolbarModule,
   ],
 })
 export class PagesModule {}
