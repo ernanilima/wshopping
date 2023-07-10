@@ -1,0 +1,28 @@
+<p-dialog
+  header="Cadastrar"
+  [(visible)]="register"
+  [style]="{ width: '768px' }"
+  [modal]="true"
+  class="p-fluid"
+  (onHide)="closeDialog()">
+  <ng-template pTemplate="content">
+    <p>Dialog para cadastrar MARCA</p>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times-circle"
+      (click)="closeDialog()"
+      class="p-button-raised p-button-danger p-button-text p-mr-3"></button>
+    <button
+      pButton
+      type="submit"
+      label="Gravar"
+      icon="pi pi-check"
+      form="formulario-departamento"
+      class="p-button-raised"></button>
+  </ng-template>
+</p-dialog>

@@ -17,6 +17,7 @@ export class BrandComponent {
   public columns = brandColumns;
   public brands: Page<BrandDto[]>;
   public value = '';
+  public openDialog = false;
 
   public get defaultSort(): string {
     const column = this.columns.find((c: Columns) => c.defaultSort);
@@ -85,7 +86,11 @@ export class BrandComponent {
     table.filterGlobal(this.value, 'contains');
   }
 
-  public openNew(): void {
-    console.log('Abrir para CADASTRAR MARCA');
+  public openDialogRegister(): void {
+    this.openDialog = true;
+  }
+
+  public closeDialog(): void {
+    this.openDialog = false;
   }
 }
