@@ -6,23 +6,67 @@
   class="p-fluid"
   (onHide)="closeDialog()">
   <ng-template pTemplate="content">
-    <p>Dialog para cadastrar MARCA</p>
+    <div class="mt-4 sm:mt-0">
+      <form
+        [formGroup]="form"
+        id="formulario-departamento"
+        autocomplete="off"
+        (ngSubmit)="save()"
+        class="p-col-12">
+        <div class="grid formgrid">
+          <div class="col-6 sm:col-4 flex flex-column gap-2">
+            <label htmlFor="code">Código</label>
+            <input
+              pInputText
+              id="code"
+              type="number"
+              formControlName="code"
+              readonly />
+          </div>
+        </div>
+
+        <div class="grid formgrid mt-3">
+          <div class="col-12 mb-2 sm:col-8 flex flex-column gap-2 mb-1">
+            <label htmlFor="description">Descrição</label>
+            <input
+              pInputText
+              id="description"
+              type="text"
+              formControlName="description"
+              [value]="form.get('description')?.value | titlecase"
+              autofocus />
+          </div>
+
+          <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
+            <label htmlFor="createdAt">Cadastrado em</label>
+            <input
+              pInputText
+              id="createdAt"
+              type="text"
+              [value]="currentDate$ | async | date: 'dd/MM/yyyy HH:mm'"
+              readonly />
+          </div>
+        </div>
+      </form>
+    </div>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button
-      pButton
-      type="button"
-      label="Cancelar"
-      icon="pi pi-times-circle"
-      (click)="closeDialog()"
-      class="p-button-raised p-button-danger p-button-text p-mr-3"></button>
-    <button
-      pButton
-      type="submit"
-      label="Gravar"
-      icon="pi pi-check"
-      form="formulario-departamento"
-      class="p-button-raised"></button>
+    <div class="flex justify-content-between mt-4 sm:mt-0">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times-circle"
+        (click)="closeDialog()"
+        class="p-button-raised p-button-danger p-button-text m-0"></button>
+      <button
+        pButton
+        type="submit"
+        label="Gravar"
+        icon="pi pi-check"
+        form="formulario-departamento"
+        class="p-button-raised m-0"></button>
+    </div>
   </ng-template>
 </p-dialog>
