@@ -59,6 +59,7 @@
           currentPageReportTemplate="{first} até {last} de {totalRecords}"
           [tableStyle]="{ 'min-width': '45rem' }"
           [sortField]="defaultSort"
+          [sortOrder]="-1"
           [globalFilterFields]="[filterField.field]">
           <ng-template pTemplate="header" let-columns>
             <tr *ngIf="brands != null">
@@ -81,5 +82,5 @@
   </div>
 </div>
 
-<app-brand-register [register]="openDialog" (onCloseDialog)="closeDialog()">
+<app-brand-register [register]="openDialog" (onCloseDialog)="closeDialog($event)">
 </app-brand-register>

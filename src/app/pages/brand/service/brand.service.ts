@@ -1,5 +1,5 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, take } from 'rxjs';
 import { PageBuilder } from 'src/app/shared/params/page-params';
@@ -48,6 +48,12 @@ export class BrandService {
         }))
       )
       .pipe(take(1));
+  }
+
+  public save(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    return this._http.post(`${environment.baseUrl}/v1/marca`, brand, {
+      observe: 'response',
+    });
   }
 
   private filter(dto: BrandDto): BrandDto {

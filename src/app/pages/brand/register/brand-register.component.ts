@@ -10,19 +10,23 @@ import { FormGroup } from '@angular/forms';
 import { Observable, interval, map, startWith } from 'rxjs';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
+import { BrandService } from '../service/brand.service';
 
 @Component({
   selector: 'app-brand-register',
   templateUrl: './brand-register.component.html',
 })
 export class BrandRegisterComponent implements OnInit, OnChanges {
-  @Output() public onCloseDialog = new EventEmitter();
+  @Output() public onCloseDialog: EventEmitter<boolean> = new EventEmitter();
   @Input() public register = false;
 
   public form: FormGroup;
   public currentDate$: Observable<Date>;
 
-  constructor(private _form: FormBrand) {
+  constructor(
+    private _form: FormBrand,
+    private _brandService: BrandService
+  ) {
     this.currentDate$ = interval(30000).pipe(
       startWith(0),
       map(() => new Date())
@@ -59,11 +63,13 @@ export class BrandRegisterComponent implements OnInit, OnChanges {
 
   public save(): void {
     if (this._isValid) {
-      this.closeDialog();
+      this._brandService.save(this.form.value).subscribe(() => {
+        this.closeDialog(true);
+      });
     }
   }
 
-  public closeDialog(): void {
-    this.onCloseDialog.emit();
+  public closeDialog(save = false): void {
+    this.onCloseDialog.emit(save);
   }
 }

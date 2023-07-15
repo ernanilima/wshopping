@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FilterMetadata } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { catchError, of } from 'rxjs';
@@ -13,6 +13,8 @@ import { BrandService } from './service/brand.service';
   templateUrl: './brand.component.html',
 })
 export class BrandComponent {
+  @ViewChild('table') private _table: Table;
+
   public loading = true;
   public columns = brandColumns;
   public brands: Page<BrandDto[]>;
@@ -90,7 +92,13 @@ export class BrandComponent {
     this.openDialog = true;
   }
 
-  public closeDialog(): void {
+  public closeDialog(save: boolean): void {
+    if (save) {
+      this._table.sortField = this.defaultSort;
+      this._table.sortOrder = -1;
+      this._table.sortSingle();
+    }
+
     this.openDialog = false;
   }
 }
