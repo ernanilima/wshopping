@@ -1,13 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, interval, map, startWith } from 'rxjs';
+import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
 
 @Component({
   selector: 'app-brand-register',
   templateUrl: './brand-register.component.html',
 })
-export class BrandRegisterComponent implements OnInit {
+export class BrandRegisterComponent implements OnInit, OnChanges {
   @Output() public onCloseDialog = new EventEmitter();
   @Input() public register = false;
 
@@ -25,8 +33,34 @@ export class BrandRegisterComponent implements OnInit {
     this.form = this._form.createForm();
   }
 
+  public ngOnChanges(): void {
+    if (!this.form) return;
+
+    this.form.reset();
+  }
+
+  public fieldWithError(field: string): boolean {
+    return (
+      this.form.controls[field].errors && this.form.controls[field].touched
+    );
+  }
+
+  public getErrorMessage(field: string): string {
+    return ValidatorsService.getErrorMessage(field, this.form);
+  }
+
+  private get _isValid(): boolean {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+    }
+
+    return !this.form.invalid;
+  }
+
   public save(): void {
-    this.closeDialog();
+    if (this._isValid) {
+      this.closeDialog();
+    }
   }
 
   public closeDialog(): void {

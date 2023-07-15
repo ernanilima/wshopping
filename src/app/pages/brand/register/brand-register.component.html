@@ -35,6 +35,9 @@
               formControlName="description"
               [value]="form.get('description')?.value | titlecase"
               autofocus />
+            <small class="p-error" *ngIf="fieldWithError('description')">{{
+              getErrorMessage('description')
+            }}</small>
           </div>
 
           <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
