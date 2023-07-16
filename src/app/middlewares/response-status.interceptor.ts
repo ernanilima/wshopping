@@ -8,12 +8,12 @@ import {
   HttpResponseBase,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { Observable, catchError, throwError } from 'rxjs';
+import { ToastService } from '../shared/toast/toast.service';
 
 @Injectable()
 export class ResponseStatusInterceptor implements HttpInterceptor {
-  constructor(private _messageService: MessageService) {}
+  constructor(private _toastService: ToastService) {}
 
   public intercept(
     request: HttpRequest<HttpResponseBase>,
@@ -42,7 +42,6 @@ export class ResponseStatusInterceptor implements HttpInterceptor {
       json.status && json.status >= 400 && json.status <= 599;
 
     if (errorStatus) {
-      this._messageService.clear('BackendResponseError');
       const backendResponseError = (json as HttpErrorResponse).error;
       this._errorMessage(
         backendResponseError.error,
@@ -52,13 +51,7 @@ export class ResponseStatusInterceptor implements HttpInterceptor {
   }
 
   private _errorMessage(headerMessage: string, contentMessage: string): void {
-    this._messageService.add({
-      key: 'BackendResponseError',
-      severity: 'error',
-      summary: headerMessage,
-      detail: contentMessage,
-      life: 5000,
-    });
+    this._toastService.error(headerMessage, contentMessage);
   }
 }
 

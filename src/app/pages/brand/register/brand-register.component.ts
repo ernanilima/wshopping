@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, interval, map, startWith } from 'rxjs';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
 import { BrandService } from '../service/brand.service';
@@ -25,7 +26,8 @@ export class BrandRegisterComponent implements OnInit, OnChanges {
 
   constructor(
     private _form: FormBrand,
-    private _brandService: BrandService
+    private _brandService: BrandService,
+    private _toastService: ToastService
   ) {
     this.currentDate$ = interval(30000).pipe(
       startWith(0),
@@ -64,6 +66,7 @@ export class BrandRegisterComponent implements OnInit, OnChanges {
   public save(): void {
     if (this._isValid) {
       this._brandService.save(this.form.value).subscribe(() => {
+        this._toastService.success('Sucesso', 'Marca registrada com sucesso');
         this.closeDialog(true);
       });
     }
