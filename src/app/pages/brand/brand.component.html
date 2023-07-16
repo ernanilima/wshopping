@@ -22,17 +22,16 @@
             label="Limpar filtro"
             class="p-button-outlined mb-2"
             icon="pi pi-filter-slash"
-            (click)="clear(table, filter)"></button>
+            (click)="clear()"></button>
           <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
             <input
               #filter
               pInputText
               type="text"
-              (input)="onGlobalFilter(table, $event)"
+              (input)="onGlobalFilter($event)"
               [ngModel]="value | titlecase"
-              (ngModelChange)="value = $event"
-              [placeholder]="filterField.name"
+              [placeholder]="defaultFilter.name"
               class="w-full" />
           </span>
         </div>
@@ -58,9 +57,9 @@
           [loading]="loading"
           currentPageReportTemplate="{first} até {last} de {totalRecords}"
           [tableStyle]="{ 'min-width': '45rem' }"
-          [sortField]="defaultSort"
+          [sortField]="defaultSort.field"
           [sortOrder]="-1"
-          [globalFilterFields]="[filterField.field]">
+          [globalFilterFields]="[defaultFilter.field]">
           <ng-template pTemplate="header" let-columns>
             <tr *ngIf="brands != null">
               <th
@@ -82,5 +81,7 @@
   </div>
 </div>
 
-<app-brand-register [register]="openDialog" (onCloseDialog)="closeDialog($event)">
+<app-brand-register
+  [register]="openDialog"
+  (onCloseDialog)="closeDialog($event)">
 </app-brand-register>

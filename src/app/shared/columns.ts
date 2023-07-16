@@ -3,5 +3,5 @@ export interface Columns {
   field: string;
   type: string;
   defaultSort?: boolean;
-  filterField?: boolean;
+  defaultFilter?: boolean;
 }

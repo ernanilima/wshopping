@@ -14,6 +14,7 @@ import { BrandService } from './service/brand.service';
 })
 export class BrandComponent {
   @ViewChild('table') private _table: Table;
+  @ViewChild('filter') private _filter: HTMLInputElement;
 
   public loading = true;
   public columns = brandColumns;
@@ -21,13 +22,12 @@ export class BrandComponent {
   public value = '';
   public openDialog = false;
 
-  public get defaultSort(): string {
-    const column = this.columns.find((c: Columns) => c.defaultSort);
-    return column ? column.field : '';
+  public get defaultSort(): Columns {
+    return this.columns.find((c: Columns) => c.defaultSort);
   }
 
-  public get filterField(): Columns {
-    return this.columns.find((c: Columns) => c.filterField);
+  public get defaultFilter(): Columns {
+    return this.columns.find((c: Columns) => c.defaultFilter);
   }
 
   constructor(private _service: BrandService) {}
@@ -69,11 +69,11 @@ export class BrandComponent {
     this.loading = false;
   }
 
-  public clear(table: Table, filter: HTMLInputElement): void {
+  public clear(): void {
     this.value = null;
-    filter.value = this.value;
-    table.clearFilterValues();
-    table.sortSingle();
+    this._filter.value = this.value;
+    this._table.clearFilterValues();
+    this._table.sortSingle();
   }
 
   private _getFilter(eventParams: TableLazyLoadEvent): string {
@@ -83,9 +83,9 @@ export class BrandComponent {
       : null;
   }
 
-  public onGlobalFilter(table: Table, event: Event): void {
+  public onGlobalFilter(event: Event): void {
     this.value = (event.target as HTMLInputElement).value;
-    table.filterGlobal(this.value, 'contains');
+    this._table.filterGlobal(this.value, 'contains');
   }
 
   public openDialogRegister(): void {
@@ -94,9 +94,9 @@ export class BrandComponent {
 
   public closeDialog(save: boolean): void {
     if (save) {
-      this._table.sortField = this.defaultSort;
+      this._table.sortField = this.defaultSort.field;
       this._table.sortOrder = -1;
-      this._table.sortSingle();
+      this.clear();
     }
 
     this.openDialog = false;
