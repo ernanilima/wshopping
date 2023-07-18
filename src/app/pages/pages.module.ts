@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { LayoutModule } from '../layout/layout.module';
+import { SharedModule } from '../shared/shared.module';
 import { BrandComponent } from './brand/brand.component';
 import { FormBrand } from './brand/brand.form';
 import { BrandRegisterComponent } from './brand/register/brand-register.component';
@@ -29,6 +30,7 @@ import { ProductComponent } from './product/product.component';
     CommonModule,
     FormsModule,
     PagesRoutingModule,
+    SharedModule,
     LayoutModule,
     CardModule,
     TableModule,

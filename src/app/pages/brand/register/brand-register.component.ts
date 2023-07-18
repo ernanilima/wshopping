@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, interval, map, startWith } from 'rxjs';
+import { Observable, finalize, interval, map, startWith } from 'rxjs';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
@@ -20,6 +20,8 @@ import { BrandService } from '../service/brand.service';
 export class BrandRegisterComponent implements OnInit, OnChanges {
   @Output() public onCloseDialog: EventEmitter<boolean> = new EventEmitter();
   @Input() public register = false;
+
+  public loadingVisible = false;
 
   public form: FormGroup;
   public currentDate$: Observable<Date>;
@@ -65,10 +67,14 @@ export class BrandRegisterComponent implements OnInit, OnChanges {
 
   public save(): void {
     if (this._isValid) {
-      this._brandService.save(this.form.value).subscribe(() => {
-        this._toastService.success('Sucesso', 'Marca registrada com sucesso');
-        this.closeDialog(true);
-      });
+      this.loadingVisible = true;
+      this._brandService
+        .save(this.form.value)
+        .pipe(finalize(() => (this.loadingVisible = false)))
+        .subscribe(() => {
+          this._toastService.success('Sucesso', 'Marca registrada com sucesso');
+          this.closeDialog(true);
+        });
     }
   }
 
