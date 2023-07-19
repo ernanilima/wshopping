@@ -7,18 +7,19 @@ import { MessageService } from 'primeng/api';
 export class ToastService {
   constructor(private _messageService: MessageService) {}
 
-  public success(headerMessage: string, contentMessage: string): void {
-    this._toast('success', headerMessage, contentMessage);
+  public success(header: string, content: string): void {
+    this._toast('success', header, content, 5000);
   }
 
-  public error(headerMessage: string, contentMessage: string): void {
-    this._toast('error', headerMessage, contentMessage);
+  public error(header: string, content: string, delay = 5000): void {
+    this._toast('error', header, content, delay);
   }
 
   private _toast(
     type: string,
     headerMessage: string,
-    contentMessage: string
+    contentMessage: string,
+    delay: number
   ): void {
     this._messageService.clear('BackendResponse');
 
@@ -27,7 +28,7 @@ export class ToastService {
       severity: type,
       summary: headerMessage,
       detail: contentMessage,
-      life: 5000,
+      life: delay,
     });
   }
 }
