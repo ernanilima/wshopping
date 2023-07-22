@@ -92,6 +92,14 @@ export class BrandComponent {
     this.openDialog = true;
   }
 
+  public editItem(brand: BrandDto): void {
+    console.log('EDIT', brand);
+  }
+
+  public deleteItem(brand: BrandDto): void {
+    console.log('DELETE', brand);
+  }
+
   public closeDialog(save: boolean): void {
     if (save) {
       this._table.sortField = this.defaultSort.field;

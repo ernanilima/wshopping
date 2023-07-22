@@ -21,7 +21,7 @@ export const brandColumns: Columns[] = [
     defaultFilter: true,
   },
   {
-    name: 'Produtos Totais',
+    name: 'Produtos',
     field: 'total_products',
     type: 'numeric',
   },
