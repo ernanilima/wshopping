@@ -12,7 +12,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { SharedModule } from '../shared/shared.module';
 import { BrandComponent } from './brand/brand.component';
 import { FormBrand } from './brand/brand.form';
-import { BrandRegisterComponent } from './brand/register/brand-register.component';
+import { BrandRegisterEditComponent } from './brand/register-edit/brand-register-edit.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
 import { PagesRoutingModule } from './pages-routing.module';
@@ -24,7 +24,7 @@ import { ProductComponent } from './product/product.component';
     DashboardComponent,
     BrandComponent,
     ProductComponent,
-    BrandRegisterComponent,
+    BrandRegisterEditComponent,
   ],
   imports: [
     CommonModule,

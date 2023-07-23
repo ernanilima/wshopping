@@ -14,12 +14,12 @@ import { FormBrand } from '../brand.form';
 import { BrandService } from '../service/brand.service';
 
 @Component({
-  selector: 'app-brand-register',
-  templateUrl: './brand-register.component.html',
+  selector: 'app-brand-register-edit',
+  templateUrl: './brand-register-edit.component.html',
 })
-export class BrandRegisterComponent implements OnInit, OnChanges {
+export class BrandRegisterEditComponent implements OnInit, OnChanges {
   @Output() public onCloseDialog: EventEmitter<boolean> = new EventEmitter();
-  @Input() public register = false;
+  @Input() public visible = false;
 
   public loadingVisible = false;
 
