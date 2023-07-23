@@ -10,7 +10,7 @@
               label="Cadastrar"
               icon="pi pi-plus"
               class="p-button mr-2"
-              (click)="openDialogRegister()"></button>
+              (click)="registerItem()"></button>
           </div>
         </ng-template>
       </p-toolbar>
@@ -100,5 +100,6 @@
 
 <app-brand-register-edit
   [visible]="openDialog"
+  [brand]="brand"
   (onCloseDialog)="closeDialog($event)">
 </app-brand-register-edit>

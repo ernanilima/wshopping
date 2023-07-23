@@ -1,6 +1,7 @@
 import { Columns } from 'src/app/shared/columns';
 
 export interface BrandDto {
+  id?: string;
   code: number;
   description: string;
   total_products: number;

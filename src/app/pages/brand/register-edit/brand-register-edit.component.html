@@ -48,7 +48,11 @@
               pInputText
               id="createdAt"
               type="text"
-              [value]="currentDate$ | async | date: 'dd/MM/yyyy HH:mm'"
+              [value]="
+                brand
+                  ? brand.created_at
+                  : (currentDate$ | async | date: 'dd/MM/yyyy HH:mm')
+              "
               readonly />
           </div>
         </div>

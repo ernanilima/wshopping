@@ -12,6 +12,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
 import { BrandService } from '../service/brand.service';
+import { BrandDto } from '../model/brand.dto';
 
 @Component({
   selector: 'app-brand-register-edit',
@@ -20,6 +21,7 @@ import { BrandService } from '../service/brand.service';
 export class BrandRegisterEditComponent implements OnInit, OnChanges {
   @Output() public onCloseDialog: EventEmitter<boolean> = new EventEmitter();
   @Input() public visible = false;
+  @Input() public brand?: BrandDto;
 
   public loadingVisible = false;
 
@@ -45,6 +47,7 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
     if (!this.form) return;
 
     this.form.reset();
+    this.form.patchValue(this.brand);
   }
 
   public fieldWithError(field: string): boolean {
@@ -68,8 +71,12 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
   public save(): void {
     if (this._isValid) {
       this.loadingVisible = true;
-      this._brandService
-        .save(this.form.value)
+
+      const service = !this.brand
+        ? this._brandService.register(this.form.value)
+        : this._brandService.edit(this.form.value);
+
+      service
         .pipe(finalize(() => (this.loadingVisible = false)))
         .subscribe(() => {
           this._toastService.success('Sucesso', 'Marca registrada com sucesso');

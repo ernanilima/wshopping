@@ -50,8 +50,16 @@ export class BrandService {
       .pipe(take(1));
   }
 
-  public save(brand: BrandDto): Observable<HttpResponse<unknown>> {
-    return this._http.post(`${environment.baseUrl}/v1/marca`, brand, {
+  public register(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/marca`;
+    return this._http.post(url, brand, {
+      observe: 'response',
+    });
+  }
+
+  public edit(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/marca/${brand.id}`;
+    return this._http.put(url, brand, {
       observe: 'response',
     });
   }

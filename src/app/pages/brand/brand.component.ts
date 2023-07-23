@@ -19,6 +19,7 @@ export class BrandComponent {
   public loading = true;
   public columns = brandColumns;
   public brands: Page<BrandDto[]>;
+  public brand: BrandDto;
   public value = '';
   public openDialog = false;
 
@@ -88,12 +89,14 @@ export class BrandComponent {
     this._table.filterGlobal(this.value, 'contains');
   }
 
-  public openDialogRegister(): void {
+  public registerItem(): void {
     this.openDialog = true;
+    this.brand = null;
   }
 
   public editItem(brand: BrandDto): void {
-    console.log('EDIT', brand);
+    this.openDialog = true;
+    this.brand = brand;
   }
 
   public deleteItem(brand: BrandDto): void {
