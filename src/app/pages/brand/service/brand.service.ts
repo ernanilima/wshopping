@@ -17,6 +17,27 @@ export class BrandService {
     private _datePipe: DatePipe
   ) {}
 
+  public register(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/marca`;
+    return this._http.post(url, brand, {
+      observe: 'response',
+    });
+  }
+
+  public edit(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/marca/${brand.id}`;
+    return this._http.put(url, brand, {
+      observe: 'response',
+    });
+  }
+
+  public delete(brand: BrandDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/marca/${brand.id}`;
+    return this._http.delete(url, {
+      observe: 'response',
+    });
+  }
+
   public findAllBrands(pageBuilder: PageBuilder): Observable<Page<BrandDto[]>> {
     const params = pageBuilder.pageQueryString();
 
@@ -48,20 +69,6 @@ export class BrandService {
         }))
       )
       .pipe(take(1));
-  }
-
-  public register(brand: BrandDto): Observable<HttpResponse<unknown>> {
-    const url = `${environment.baseUrl}/v1/marca`;
-    return this._http.post(url, brand, {
-      observe: 'response',
-    });
-  }
-
-  public edit(brand: BrandDto): Observable<HttpResponse<unknown>> {
-    const url = `${environment.baseUrl}/v1/marca/${brand.id}`;
-    return this._http.put(url, brand, {
-      observe: 'response',
-    });
   }
 
   private filter(dto: BrandDto): BrandDto {

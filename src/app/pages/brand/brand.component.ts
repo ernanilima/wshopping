@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FilterMetadata } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
@@ -100,7 +101,29 @@ export class BrandComponent {
   }
 
   public deleteItem(brand: BrandDto): void {
-    console.log('DELETE', brand);
+    this.loading = true;
+    this._service
+      .delete(brand)
+      .pipe(catchError(() => of(null)))
+      .subscribe((response: HttpResponse<unknown>) => {
+        if (!response) {
+          this.loading = false;
+          return;
+        }
+
+        this.brands.content = this.brands.content.filter(
+          (b: BrandDto) => b.id != brand.id
+        );
+
+        this.brands.size = this.brands.size - 1;
+        this._table.totalRecords = this._table.totalRecords - 1;
+
+        if (this.brands.content.length === 0) {
+          this._table.sortSingle();
+        }
+
+        this.loading = false;
+      });
   }
 
   public closeDialog(save: boolean): void {
