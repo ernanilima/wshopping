@@ -8,11 +8,10 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, finalize, interval, map, startWith } from 'rxjs';
-import { ToastService } from 'src/app/shared/toast/toast.service';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { FormBrand } from '../brand.form';
-import { BrandService } from '../service/brand.service';
 import { BrandDto } from '../model/brand.dto';
+import { BrandService } from '../service/brand.service';
 
 @Component({
   selector: 'app-brand-register-edit',
@@ -30,8 +29,7 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
 
   constructor(
     private _form: FormBrand,
-    private _brandService: BrandService,
-    private _toastService: ToastService
+    private _brandService: BrandService
   ) {
     this.currentDate$ = interval(30000).pipe(
       startWith(0),
@@ -79,7 +77,6 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
       service
         .pipe(finalize(() => (this.loadingVisible = false)))
         .subscribe(() => {
-          this._toastService.success('Sucesso', 'Marca registrada com sucesso');
           this.closeDialog(true);
         });
     }

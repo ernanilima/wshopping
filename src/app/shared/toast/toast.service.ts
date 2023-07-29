@@ -7,8 +7,8 @@ import { MessageService } from 'primeng/api';
 export class ToastService {
   constructor(private _messageService: MessageService) {}
 
-  public success(header: string, content: string): void {
-    this._toast('success', header, content, 5000);
+  public success(content: string): void {
+    this._toast('success', 'Success', content, 5000);
   }
 
   public error(header: string, content: string, delay = 5000): void {

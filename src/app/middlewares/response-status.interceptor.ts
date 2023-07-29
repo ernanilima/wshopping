@@ -5,10 +5,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
   HttpResponseBase,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { ToastService } from '../shared/toast/toast.service';
 
 @Injectable()
@@ -18,13 +19,21 @@ export class ResponseStatusInterceptor implements HttpInterceptor {
   public intercept(
     request: HttpRequest<HttpResponseBase>,
     next: HttpHandler
-  ): Observable<HttpEvent<HttpErrorResponse>> {
+  ): Observable<HttpEvent<HttpResponseBase>> {
     return next.handle(request).pipe(
-      catchError((json: HttpErrorResponse) => {
-        this._backendResponseMessage(json);
+      tap((response) => {
+        if (response instanceof HttpResponse && response.body['message']) {
+          this._backendResponseMessage(response);
+        }
+        return response;
+      }),
+      catchError((response: HttpErrorResponse) => {
+        this._backendResponseMessage(response);
 
-        if (json.error) json = json.error;
-        return throwError(() => json);
+        if (response.error) {
+          response = response.error;
+        }
+        return throwError(() => response);
       })
     );
   }
@@ -38,14 +47,20 @@ export class ResponseStatusInterceptor implements HttpInterceptor {
    * @param json HttpResponseBase
    */
   private _backendResponseMessage(json: HttpResponseBase): void {
+    const successStatus: boolean =
+      json.status && json.status >= 200 && json.status <= 299;
+
     const errorStatus: boolean =
       json.status && json.status >= 400 && json.status <= 599;
 
+    if (successStatus) {
+      const response = (json as HttpResponse<never>).body;
+      return this._toastService.success(response['message']);
+    }
+
     if (errorStatus) {
       const response = (json as HttpErrorResponse).error;
-      this._errorMessage(response.error, response.message);
-
-      return;
+      return this._errorMessage(response.error, response.message);
     }
 
     if (json.status === 0) {
