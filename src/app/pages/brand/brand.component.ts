@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
-import { FilterMetadata } from 'primeng/api';
+import { ConfirmationService, FilterMetadata } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { catchError, of } from 'rxjs';
 import { Columns } from 'src/app/shared/columns';
@@ -32,7 +32,10 @@ export class BrandComponent {
     return this.columns.find((c: Columns) => c.defaultFilter);
   }
 
-  constructor(private _service: BrandService) {}
+  constructor(
+    private _service: BrandService,
+    private _confirmationService: ConfirmationService
+  ) {}
 
   public findBrands(eventParams: TableLazyLoadEvent): void {
     if (
@@ -101,29 +104,40 @@ export class BrandComponent {
   }
 
   public deleteItem(brand: BrandDto): void {
-    this.loading = true;
-    this._service
-      .delete(brand)
-      .pipe(catchError(() => of(null)))
-      .subscribe((response: HttpResponse<unknown>) => {
-        if (!response) {
-          this.loading = false;
-          return;
-        }
+    this._confirmationService.confirm({
+      key: 'remove',
+      message: `Tem certeza que deseja excluir "${brand.description}"?`,
+      header: 'Exclusão',
+      icon: 'pi pi-exclamation-triangle',
+      defaultFocus: 'reject',
+      rejectLabel: 'Não',
+      acceptLabel: 'Sim',
+      accept: () => {
+        this.loading = true;
+        this._service
+          .delete(brand)
+          .pipe(catchError(() => of(null)))
+          .subscribe((response: HttpResponse<unknown>) => {
+            if (!response) {
+              this.loading = false;
+              return;
+            }
 
-        this.brands.content = this.brands.content.filter(
-          (b: BrandDto) => b.id != brand.id
-        );
+            this.brands.content = this.brands.content.filter(
+              (b: BrandDto) => b.id != brand.id
+            );
 
-        this.brands.size = this.brands.size - 1;
-        this._table.totalRecords = this._table.totalRecords - 1;
+            this.brands.size = this.brands.size - 1;
+            this._table.totalRecords = this._table.totalRecords - 1;
 
-        if (this.brands.content.length === 0) {
-          this._table.sortSingle();
-        }
+            if (this.brands.content.length === 0) {
+              this._table.sortSingle();
+            }
 
-        this.loading = false;
-      });
+            this.loading = false;
+          });
+      },
+    });
   }
 
   public closeDialog(save: boolean): void {
