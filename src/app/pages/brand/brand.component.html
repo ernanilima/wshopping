@@ -1,105 +1,15 @@
-<div class="grid">
-  <div class="col-12">
-    <div class="card">
-      <p-toolbar styleClass="mb-4">
-        <ng-template pTemplate="left">
-          <div class="my-2">
-            <button
-              pButton
-              pRipple
-              label="Cadastrar"
-              icon="pi pi-plus"
-              class="p-button mr-2"
-              (click)="registerItem()"></button>
-          </div>
-        </ng-template>
-      </p-toolbar>
-
-      <div class="card">
-        <div class="flex justify-content-between flex-column sm:flex-row mb-3">
-          <button
-            pButton
-            label="Limpar filtro"
-            class="p-button-outlined mb-2"
-            icon="pi pi-filter-slash"
-            (click)="clear()"></button>
-          <span class="p-input-icon-left mb-2">
-            <i class="pi pi-search"></i>
-            <input
-              #filter
-              pInputText
-              type="text"
-              (input)="onGlobalFilter($event)"
-              [ngModel]="value | titlecase"
-              [placeholder]="defaultFilter.name"
-              class="w-full" />
-          </span>
-        </div>
-
-        <div
-          *ngIf="brands == null"
-          class="flex justify-content-center flex-wrap">
-          <p>Nenhum registro cadastrado</p>
-        </div>
-
-        <p-table
-          #table
-          [columns]="columns"
-          [value]="brands?.content"
-          [rowHover]="true"
-          [paginator]="brands != null"
-          [rows]="10"
-          [lazy]="true"
-          (onLazyLoad)="findBrands($event)"
-          [showCurrentPageReport]="true"
-          [totalRecords]="brands?.totalElements"
-          [rowsPerPageOptions]="[10, 25, 50]"
-          [loading]="loading"
-          currentPageReportTemplate="Total de Itens {totalRecords}"
-          [tableStyle]="{ 'min-width': '55rem' }"
-          [sortField]="defaultSort.field"
-          [sortOrder]="-1"
-          [globalFilterFields]="[defaultFilter.field]">
-          <ng-template pTemplate="header" let-columns>
-            <tr *ngIf="brands != null">
-              <th
-                *ngFor="let column of columns"
-                pSortableColumn="{{ column.field }}">
-                {{ column.name }}
-                <p-sortIcon field="{{ column.field }}"></p-sortIcon>
-              </th>
-              <th class="col-1"></th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-item let-columns="columns">
-            <tr>
-              <td *ngFor="let column of columns">{{ item[column.field] }}</td>
-              <td>
-                <div class="flex">
-                  <button
-                    pButton
-                    pRipple
-                    icon="pi pi-pencil"
-                    class="p-button-rounded p-button-outlined p-button-success mr-2"
-                    (click)="editItem(item)"></button>
-                  <button
-                    pButton
-                    pRipple
-                    icon="pi pi-trash"
-                    class="p-button-rounded p-button-outlined p-button-danger"
-                    (click)="deleteItem(item)"></button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </div>
-  </div>
-</div>
+<app-table
+  (onFind)="findBrands($event)"
+  (onRegisterItem)="registerItem()"
+  (onEditItem)="editItem($event)"
+  (onDeleteItem)="deleteItem($event)"
+  [loading]="$loading"
+  [columns]="columns"
+  [datas]="brands"
+  [(reloadTable)]="$reloadTable"></app-table>
 
 <app-brand-register-edit
-  [visible]="openDialog"
+  [(visible)]="showDialog"
   [brand]="brand"
-  (onCloseDialog)="closeDialog($event)">
+  (onSave)="save()">
 </app-brand-register-edit>

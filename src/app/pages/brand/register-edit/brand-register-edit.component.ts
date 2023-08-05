@@ -18,7 +18,8 @@ import { BrandService } from '../service/brand.service';
   templateUrl: './brand-register-edit.component.html',
 })
 export class BrandRegisterEditComponent implements OnInit, OnChanges {
-  @Output() public onCloseDialog: EventEmitter<boolean> = new EventEmitter();
+  @Output() public visibleChange = new EventEmitter<boolean>();
+  @Output() public onSave = new EventEmitter<boolean>();
   @Input() public visible = false;
   @Input() public brand?: BrandDto;
 
@@ -77,12 +78,13 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
       service
         .pipe(finalize(() => (this.loadingVisible = false)))
         .subscribe(() => {
-          this.closeDialog(true);
+          this.onSave.emit(true);
+          this.visibleChange.emit(false);
         });
     }
   }
 
-  public closeDialog(save = false): void {
-    this.onCloseDialog.emit(save);
+  public closeDialog(): void {
+    this.visibleChange.emit(false);
   }
 }

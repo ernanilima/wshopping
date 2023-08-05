@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { ToolbarModule } from 'primeng/toolbar';
 import { LayoutModule } from '../layout/layout.module';
+import { ComponentsModule } from '../shared/components/components.module';
 import { SharedModule } from '../shared/shared.module';
 import { BrandComponent } from './brand/brand.component';
 import { FormBrand } from './brand/brand.form';
@@ -28,15 +26,12 @@ import { ProductComponent } from './product/product.component';
   ],
   imports: [
     CommonModule,
-    FormsModule,
     PagesRoutingModule,
     SharedModule,
+    ComponentsModule,
     LayoutModule,
-    CardModule,
-    TableModule,
     ButtonModule,
     InputTextModule,
-    ToolbarModule,
     DialogModule,
     ReactiveFormsModule,
   ],
