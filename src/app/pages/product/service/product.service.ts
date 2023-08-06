@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
+import { Links } from 'src/app/shared/links';
 import { PageBuilder } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
 import { environment } from 'src/environments/environment';
@@ -22,5 +23,11 @@ export class ProductService {
         `${environment.baseUrl}/v1/produto/nao-encontrado?${params}`
       )
       .pipe(take(1));
+  }
+
+  public getLinkSearchBarcode(): Observable<string> {
+    return this._http
+      .get<Links>('assets/links.json')
+      .pipe(map((links) => links.searchBarcode));
   }
 }

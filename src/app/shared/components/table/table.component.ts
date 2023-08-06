@@ -25,6 +25,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
   @Output() public onFind = new EventEmitter<TableLazyLoadEvent>();
   @Output() public onRegisterItem = new EventEmitter();
+  @Output() public onSearchItem = new EventEmitter();
   @Output() public onEditItem = new EventEmitter();
   @Output() public onDeleteItem = new EventEmitter();
   @Input({ required: true }) public datas: Page<unknown[]>;
@@ -48,6 +49,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
   public value = '';
   public isRegisterItem = false;
+  public isSearchItem = false;
   public isEditItem = false;
   public isDeleteItem = false;
 
@@ -70,6 +72,7 @@ export class TableComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.isRegisterItem = this.onRegisterItem.observed;
+    this.isSearchItem = this.onSearchItem.observed;
     this.isEditItem = this.onEditItem.observed;
     this.isDeleteItem = this.onDeleteItem.observed;
   }
@@ -97,6 +100,10 @@ export class TableComponent implements OnInit, OnDestroy {
 
   public registerItem(): void {
     this.onRegisterItem.emit();
+  }
+
+  public searchItem(item: unknown): void {
+    this.onSearchItem.emit(item);
   }
 
   public editItem(item: unknown): void {

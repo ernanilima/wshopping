@@ -68,14 +68,23 @@
                 {{ column.name }}
                 <p-sortIcon field="{{ column.field }}"></p-sortIcon>
               </th>
-              <th *ngIf="isEditItem || isDeleteItem" class="col-1"></th>
+              <th
+                *ngIf="isSearchItem || isEditItem || isDeleteItem"
+                class="col-1"></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-columns="columns">
             <tr>
               <td *ngFor="let column of columns">{{ item[column.field] }}</td>
-              <td *ngIf="isEditItem || isDeleteItem">
+              <td *ngIf="isSearchItem || isEditItem || isDeleteItem">
                 <div class="flex">
+                  <button
+                    *ngIf="isSearchItem"
+                    pButton
+                    pRipple
+                    icon="pi pi-search"
+                    class="p-button-rounded p-button-outlined p-button-help mr-2"
+                    (click)="searchItem(item)"></button>
                   <button
                     *ngIf="isEditItem"
                     pButton

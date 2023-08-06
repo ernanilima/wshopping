@@ -33,4 +33,12 @@ export class ProductComponent {
         this.$loadingProductsNotFound.next(false);
       });
   }
+
+  public searchProductNotFound(productNotFound: ProductNotFoundDto): void {
+    this._service
+      .getLinkSearchBarcode()
+      .subscribe((link: string) =>
+        window.open(link + productNotFound.barcode, '_blank')
+      );
+  }
 }
