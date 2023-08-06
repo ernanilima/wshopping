@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -16,7 +17,7 @@ import { Page } from '../../params/page-response';
   selector: 'app-table',
   templateUrl: './table.component.html',
 })
-export class TableComponent implements OnDestroy {
+export class TableComponent implements OnInit, OnDestroy {
   private _unsubscribeAll = new Subject();
 
   @ViewChild('table') private _table: Table;
@@ -46,6 +47,9 @@ export class TableComponent implements OnDestroy {
   }
 
   public value = '';
+  public isRegisterItem = false;
+  public isEditItem = false;
+  public isDeleteItem = false;
 
   public get defaultSort(): Columns {
     return this.columns.find((c: Columns) => c.defaultSort);
@@ -63,6 +67,12 @@ export class TableComponent implements OnDestroy {
   }
 
   constructor(private _confirmationService: ConfirmationService) {}
+
+  public ngOnInit(): void {
+    this.isRegisterItem = this.onRegisterItem.observed;
+    this.isEditItem = this.onEditItem.observed;
+    this.isDeleteItem = this.onDeleteItem.observed;
+  }
 
   public ngOnDestroy(): void {
     this._unsubscribeAll.next(true);

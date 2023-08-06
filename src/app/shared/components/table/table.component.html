@@ -1,7 +1,7 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <p-toolbar styleClass="mb-4">
+      <p-toolbar *ngIf="isRegisterItem" styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
             <button
@@ -68,21 +68,23 @@
                 {{ column.name }}
                 <p-sortIcon field="{{ column.field }}"></p-sortIcon>
               </th>
-              <th class="col-1"></th>
+              <th *ngIf="isEditItem || isDeleteItem" class="col-1"></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-columns="columns">
             <tr>
               <td *ngFor="let column of columns">{{ item[column.field] }}</td>
-              <td>
+              <td *ngIf="isEditItem || isDeleteItem">
                 <div class="flex">
                   <button
+                    *ngIf="isEditItem"
                     pButton
                     pRipple
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                     (click)="editItem(item)"></button>
                   <button
+                    *ngIf="isDeleteItem"
                     pButton
                     pRipple
                     icon="pi pi-trash"
