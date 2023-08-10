@@ -25,6 +25,19 @@ export class ProductService {
       .pipe(take(1));
   }
 
+  public findAllProductsNotFoundByBarcode(
+    barcode: string,
+    pageBuilder: PageBuilder
+  ): Observable<Page<ProductNotFoundDto[]>> {
+    const params = pageBuilder.pageQueryString();
+
+    return this._http
+      .get<Page<ProductNotFoundDto[]>>(
+        `${environment.baseUrl}/v1/produto/nao-encontrado/${barcode}?${params}`
+      )
+      .pipe(take(1));
+  }
+
   public getLinkSearchBarcode(): Observable<string> {
     return this._http
       .get<Links>('assets/links.json')

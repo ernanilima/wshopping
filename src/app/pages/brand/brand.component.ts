@@ -1,8 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FilterMetadata } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, catchError, of } from 'rxjs';
+import { PageFilter } from 'src/app/shared/params/page-filter';
 import { PageParams } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
 import { BrandDto, brandColumns } from './model/brand.dto';
@@ -23,10 +23,7 @@ export class BrandComponent {
   constructor(private _service: BrandService) {}
 
   public findBrands(eventParams: TableLazyLoadEvent): void {
-    if (
-      Object.keys(eventParams.filters).length === 0 ||
-      !this._getFilter(eventParams)
-    ) {
+    if (!PageFilter.of(eventParams)) {
       this._findAllBrands(eventParams);
     } else {
       this._findAllBrandsByDescription(eventParams);
@@ -44,7 +41,7 @@ export class BrandComponent {
   }
 
   private _findAllBrandsByDescription(eventParams: TableLazyLoadEvent): void {
-    const description = this._getFilter(eventParams);
+    const description = PageFilter.of(eventParams);
     const params = PageParams.of(eventParams);
 
     this.$loading.next(true);
@@ -52,13 +49,6 @@ export class BrandComponent {
       .findAllBrandsByDescription(description, params)
       .pipe(catchError(() => of(null)))
       .subscribe(this._handleBrandResult.bind(this));
-  }
-
-  private _getFilter(eventParams: TableLazyLoadEvent): string {
-    const filter = eventParams.filters['global'];
-    return filter && 'value' in filter
-      ? (filter as FilterMetadata).value
-      : null;
   }
 
   private _handleBrandResult(brands: Page<BrandDto[]>): void {
