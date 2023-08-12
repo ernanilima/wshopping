@@ -12,6 +12,7 @@ import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { Columns } from '../../columns';
 import { Page } from '../../params/page-response';
+import { TableTitle } from './table.title';
 
 @Component({
   selector: 'app-table',
@@ -28,6 +29,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Output() public onSearchItem = new EventEmitter();
   @Output() public onEditItem = new EventEmitter();
   @Output() public onDeleteItem = new EventEmitter();
+  @Input({ required: true }) public tableTitle: TableTitle;
   @Input({ required: true }) public datas: Page<unknown[]>;
   @Input({ required: true }) public columns: Columns[] = [];
   @Input({ required: true }) public loading = new BehaviorSubject(true);

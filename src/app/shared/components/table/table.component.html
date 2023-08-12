@@ -3,19 +3,24 @@
     <div class="card">
       <p-toolbar *ngIf="isRegisterItem" styleClass="mb-4">
         <ng-template pTemplate="left">
-          <div class="my-2">
-            <button
-              pButton
-              pRipple
-              label="Cadastrar"
-              icon="pi pi-plus"
-              class="p-button mr-2"
-              (click)="registerItem()"></button>
-          </div>
+          <button
+            pButton
+            pRipple
+            label="Cadastrar"
+            icon="pi pi-plus"
+            class="p-button mr-2"
+            (click)="registerItem()"></button>
         </ng-template>
       </p-toolbar>
 
-      <div class="card">
+      <p-fieldset [styleClass]="tableTitle.styleClass">
+        <ng-template pTemplate="header">
+          <div>
+            <span [ngClass]="['pi', 'mr-2', tableTitle.icon]"></span>
+            <span class="font-bold text-lg">{{ tableTitle.title }}</span>
+          </div>
+        </ng-template>
+
         <div class="flex justify-content-between flex-column sm:flex-row mb-3">
           <button
             pButton
@@ -104,7 +109,7 @@
             </tr>
           </ng-template>
         </p-table>
-      </div>
+      </p-fieldset>
     </div>
   </div>
 </div>

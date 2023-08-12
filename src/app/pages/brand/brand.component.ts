@@ -2,6 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, catchError, of } from 'rxjs';
+import { TableTitle } from 'src/app/shared/components/table/table.title';
 import { PageFilter } from 'src/app/shared/params/page-filter';
 import { PageParams } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
@@ -13,6 +14,11 @@ import { BrandService } from './service/brand.service';
   templateUrl: './brand.component.html',
 })
 export class BrandComponent {
+  public tableTitleBrands: TableTitle = {
+    title: 'Marcas',
+    icon: 'pi-box',
+  };
+
   public $loading = new BehaviorSubject<boolean>(true);
   public columns = brandColumns;
   public brands: Page<BrandDto[]>;

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, catchError, of } from 'rxjs';
+import { TableTitle } from 'src/app/shared/components/table/table.title';
 import { PageFilter } from 'src/app/shared/params/page-filter';
 import { PageParams } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
@@ -15,6 +16,12 @@ import { ProductService } from './service/product.service';
   templateUrl: './product.component.html',
 })
 export class ProductComponent {
+  public tableTitleProductsNotFound: TableTitle = {
+    title: 'Produtos não encontrados',
+    icon: 'pi-times-circle',
+    styleClass: 'fieldset-legend-background-bisque',
+  };
+
   public $loadingProductsNotFound = new BehaviorSubject<boolean>(true);
   public columnsProductsNotFound = productNotFoundColumns;
   public productsNotFound: Page<ProductNotFoundDto[]>;
