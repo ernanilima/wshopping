@@ -29,6 +29,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Output() public onSearchItem = new EventEmitter();
   @Output() public onEditItem = new EventEmitter();
   @Output() public onDeleteItem = new EventEmitter();
+  @Input() public tableMinWidth = '55rem';
   @Input({ required: true }) public tableTitle: TableTitle;
   @Input({ required: true }) public datas: Page<unknown[]>;
   @Input({ required: true }) public columns: Columns[] = [];

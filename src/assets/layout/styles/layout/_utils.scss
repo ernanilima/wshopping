@@ -11,6 +11,10 @@
   }
 }
 
+.fieldset {
+  min-inline-size: auto;
+}
+
 .fieldset-legend-background-bisque .p-fieldset-legend {
   background-color: bisque;
 }

@@ -1,5 +1,6 @@
 <app-table
   [tableTitle]="tableTitleProductsNotFound"
+  [tableMinWidth]="'30rem'"
   (onFind)="findProductsNotFound($event)"
   (onSearchItem)="searchProductNotFound($event)"
   [loading]="$loadingProductsNotFound"
