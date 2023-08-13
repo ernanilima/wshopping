@@ -4,14 +4,18 @@ import { Observable, map, take } from 'rxjs';
 import { Links } from 'src/app/shared/links';
 import { PageBuilder } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
+import { FilterService } from 'src/app/shared/services/filter.service';
 import { environment } from 'src/environments/environment';
-import { ProductNotFoundDto } from '../model/product.dto';
+import { ProductDto, ProductNotFoundDto } from '../model/product.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  constructor(private _http: HttpClient) {}
+  constructor(
+    private _http: HttpClient,
+    private _filterService: FilterService
+  ) {}
 
   public findAllProductsNotFound(
     pageBuilder: PageBuilder
@@ -42,5 +46,21 @@ export class ProductService {
     return this._http
       .get<Links>('assets/links.json')
       .pipe(map((links) => links.searchBarcode));
+  }
+
+  public findAllProducts(
+    pageBuilder: PageBuilder
+  ): Observable<Page<ProductDto[]>> {
+    const params = pageBuilder.pageQueryString();
+
+    return this._http
+      .get<Page<ProductDto[]>>(`${environment.baseUrl}/v1/produto?${params}`)
+      .pipe(take(1))
+      .pipe(
+        map((resp: Page<ProductDto[]>) => ({
+          ...resp,
+          content: resp.content.map((dto) => this._filterService.filter(dto)),
+        }))
+      );
   }
 }

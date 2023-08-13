@@ -6,7 +6,9 @@ import { PageFilter } from 'src/app/shared/params/page-filter';
 import { PageParams } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
 import {
+  ProductDto,
   ProductNotFoundDto,
+  productColumns,
   productNotFoundColumns,
 } from './model/product.dto';
 import { ProductService } from './service/product.service';
@@ -26,6 +28,16 @@ export class ProductComponent {
   public columnsProductsNotFound = productNotFoundColumns;
   public productsNotFound: Page<ProductNotFoundDto[]>;
   public $reloadTableProductsNotFound = new BehaviorSubject<boolean>(false);
+
+  public tableTitleProducts: TableTitle = {
+    title: 'Produtos',
+    icon: 'pi-shopping-cart',
+  };
+
+  public $loadingProducts = new BehaviorSubject<boolean>(true);
+  public columnsProducts = productColumns;
+  public products: Page<ProductDto[]>;
+  public $reloadTableProducts = new BehaviorSubject<boolean>(false);
 
   constructor(private _service: ProductService) {}
 
@@ -73,5 +85,36 @@ export class ProductComponent {
       .subscribe((link: string) =>
         window.open(link + productNotFound.barcode, '_blank')
       );
+  }
+
+  public findProducts(eventParams: TableLazyLoadEvent): void {
+    this._findAllProducts(eventParams);
+  }
+
+  public _findAllProducts(eventParams: TableLazyLoadEvent): void {
+    const params = PageParams.of(eventParams);
+
+    this.$loadingProducts.next(true);
+    this._service
+      .findAllProducts(params)
+      .pipe(catchError(() => of(null)))
+      .subscribe(this._handleProductResult.bind(this));
+  }
+
+  private _handleProductResult(products: Page<ProductDto[]>): void {
+    this.products = products;
+    this.$loadingProducts.next(false);
+  }
+
+  public registerProduct(): void {
+    console.log('registerProduct');
+  }
+
+  public editProduct(product: ProductDto): void {
+    console.log('editProduct', product);
+  }
+
+  public deleteProduct(product: ProductDto): void {
+    console.log('deleteProduct', product);
   }
 }

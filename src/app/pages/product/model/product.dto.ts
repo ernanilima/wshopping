@@ -19,3 +19,36 @@ export const productNotFoundColumns: Columns[] = [
     defaultSort: true,
   },
 ];
+
+export interface ProductDto {
+  id?: string;
+  barcode: string;
+  description: string;
+  brand: string;
+  created_at: string;
+}
+
+export const productColumns: Columns[] = [
+  {
+    name: 'Código de barras',
+    field: 'barcode',
+    type: 'text',
+  },
+  {
+    name: 'Descrição',
+    field: 'description',
+    type: 'text',
+    defaultFilter: true,
+  },
+  {
+    name: 'Marca',
+    field: 'brand',
+    type: 'text',
+  },
+  {
+    name: 'Criação',
+    field: 'created_at',
+    type: 'date',
+    defaultSort: true,
+  },
+];

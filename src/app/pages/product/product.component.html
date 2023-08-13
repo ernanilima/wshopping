@@ -7,3 +7,14 @@
   [columns]="columnsProductsNotFound"
   [datas]="productsNotFound"
   [(reloadTable)]="$reloadTableProductsNotFound"></app-table>
+
+<app-table
+  [tableTitle]="tableTitleProducts"
+  (onFind)="findProducts($event)"
+  (onRegisterItem)="registerProduct()"
+  (onEditItem)="editProduct($event)"
+  (onDeleteItem)="deleteProduct($event)"
+  [loading]="$loadingProducts"
+  [columns]="columnsProducts"
+  [datas]="products"
+  [(reloadTable)]="$reloadTableProducts"></app-table>
