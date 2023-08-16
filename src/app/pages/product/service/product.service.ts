@@ -18,13 +18,14 @@ export class ProductService {
   ) {}
 
   public findAllProductsNotFound(
-    pageBuilder: PageBuilder
+    pageBuilder: PageBuilder = null
   ): Observable<Page<ProductNotFoundDto[]>> {
-    const params = pageBuilder.pageQueryString();
+    const baseUrl = environment.baseUrl;
+    const params = pageBuilder ? `?${pageBuilder.pageQueryString()}` : '';
 
     return this._http
       .get<Page<ProductNotFoundDto[]>>(
-        `${environment.baseUrl}/v1/produto/nao-encontrado?${params}`
+        `${baseUrl}/v1/produto/nao-encontrado${params}`
       )
       .pipe(take(1));
   }

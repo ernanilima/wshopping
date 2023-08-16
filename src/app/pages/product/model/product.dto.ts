@@ -33,6 +33,7 @@ export const productColumns: Columns[] = [
     name: 'Código de barras',
     field: 'barcode',
     type: 'text',
+    defaultFilter: true,
   },
   {
     name: 'Descrição',
@@ -44,6 +45,7 @@ export const productColumns: Columns[] = [
     name: 'Marca',
     field: 'brand',
     type: 'text',
+    defaultFilter: true,
   },
   {
     name: 'Criação',

@@ -30,7 +30,7 @@
               type="text"
               (input)="onGlobalFilter($event)"
               [ngModel]="value | titlecase"
-              [placeholder]="defaultFilter.name" />
+              [placeholder]="defaultFilterPlaceholder" />
             <button
               pButton
               type="button"
@@ -62,8 +62,7 @@
           currentPageReportTemplate="Total de Itens {totalRecords}"
           [tableStyle]="{ 'min-width': tableMinWidth }"
           [sortField]="defaultSort.field"
-          [sortOrder]="-1"
-          [globalFilterFields]="[defaultFilter.field]">
+          [sortOrder]="-1">
           <ng-template pTemplate="header" let-columns>
             <tr *ngIf="datas != null">
               <th

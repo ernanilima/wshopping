@@ -15,6 +15,8 @@ export class PageParams implements PageBuilder {
   constructor(public pageQuery: PageQuery) {}
 
   public static of(event: TableLazyLoadEvent): PageParams {
+    if (!event) return null;
+
     const sortOrder = event.sortOrder === 1 ? 'asc' : 'desc';
     return new PageParams({
       sort: `${event.sortField},${sortOrder}`,

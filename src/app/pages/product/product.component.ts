@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, catchError, of } from 'rxjs';
 import { TableTitle } from 'src/app/shared/components/table/table.title';
@@ -17,13 +17,14 @@ import { ProductService } from './service/product.service';
   selector: 'app-product',
   templateUrl: './product.component.html',
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
   public tableTitleProductsNotFound: TableTitle = {
     title: 'Produtos não encontrados',
     icon: 'pi-times-circle',
     styleClass: 'fieldset-legend-background-bisque',
   };
 
+  public showTableProductsNotFound = false;
   public $loadingProductsNotFound = new BehaviorSubject<boolean>(true);
   public columnsProductsNotFound = productNotFoundColumns;
   public productsNotFound: Page<ProductNotFoundDto[]>;
@@ -40,6 +41,15 @@ export class ProductComponent {
   public $reloadTableProducts = new BehaviorSubject<boolean>(false);
 
   constructor(private _service: ProductService) {}
+
+  public ngOnInit(): void {
+    this._service
+      .findAllProductsNotFound()
+      .pipe(catchError(() => of(null)))
+      .subscribe((result) => {
+        if (result.content) this.showTableProductsNotFound = true;
+      });
+  }
 
   public findProductsNotFound(eventParams: TableLazyLoadEvent): void {
     if (!PageFilter.of(eventParams)) {

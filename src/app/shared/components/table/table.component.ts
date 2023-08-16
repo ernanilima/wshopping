@@ -60,8 +60,11 @@ export class TableComponent implements OnInit, OnDestroy {
     return this.columns.find((c: Columns) => c.defaultSort);
   }
 
-  public get defaultFilter(): Columns {
-    return this.columns.find((c: Columns) => c.defaultFilter);
+  public get defaultFilterPlaceholder(): string {
+    return this.columns
+      .filter((c: Columns) => c.defaultFilter)
+      .map((c) => c.name)
+      .join(', ');
   }
 
   public get totalRecords(): number {
