@@ -15,6 +15,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ProductComponent } from './product/product.component';
+import { FormProduct } from './product/product.form';
+import { ProductRegisterEditComponent } from './product/register-edit/product-register-edit.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { ProductComponent } from './product/product.component';
     BrandComponent,
     ProductComponent,
     BrandRegisterEditComponent,
+    ProductRegisterEditComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,6 @@ import { ProductComponent } from './product/product.component';
     DialogModule,
     ReactiveFormsModule,
   ],
-  providers: [FormBrand],
+  providers: [FormBrand, FormProduct],
 })
 export class PagesModule {}

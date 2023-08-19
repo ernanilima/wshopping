@@ -1,0 +1,102 @@
+<app-loading [display]="loadingVisible"></app-loading>
+
+<p-dialog
+  header="Cadastrar"
+  [(visible)]="visible"
+  [style]="{ width: '768px' }"
+  [modal]="true"
+  class="p-fluid"
+  (onHide)="closeDialog()">
+  <ng-template pTemplate="content">
+    <div class="mt-4 sm:mt-0">
+      <form
+        [formGroup]="form"
+        id="formulario-departamento"
+        autocomplete="off"
+        (ngSubmit)="save()"
+        class="p-col-12">
+        <div class="grid formgrid mt-3">
+          <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
+            <label htmlFor="code">Código de barras</label>
+            <input
+              pInputText
+              id="barcode"
+              type="text"
+              formControlName="barcode" />
+            <small class="p-error" *ngIf="fieldWithError('barcode')">{{
+              getErrorMessage('barcode')
+            }}</small>
+          </div>
+
+          <div class="col-12 mb-2 sm:col-8 flex flex-column gap-2 mb-1">
+            <label htmlFor="description">Descrição</label>
+            <input
+              pInputText
+              id="description"
+              type="text"
+              formControlName="description"
+              [value]="form.get('description')?.value | titlecase"
+              autofocus />
+            <small class="p-error" *ngIf="fieldWithError('description')">{{
+              getErrorMessage('description')
+            }}</small>
+          </div>
+        </div>
+
+        <div class="grid formgrid mt-3">
+          <div class="col-12 mb-2 flex flex-column gap-2 mb-1">
+            <label htmlFor="description">Marca</label>
+            <div class="p-inputgroup">
+              <button
+                pButton
+                type="button"
+                class="p-button"
+                icon="pi pi-search"></button>
+              <input
+                pInputText
+                id="brand"
+                type="text"
+                formControlName="brand"
+                readonly />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid formgrid mt-3 flex-row-reverse">
+          <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
+            <label htmlFor="createdAt">Cadastrado em</label>
+            <input
+              pInputText
+              id="createdAt"
+              type="text"
+              [value]="
+                product
+                  ? product.created_at
+                  : (currentDate$ | async | date: 'dd/MM/yyyy HH:mm')
+              "
+              readonly />
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-between mt-4 sm:mt-0">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times-circle"
+        (click)="closeDialog()"
+        class="p-button-raised p-button-danger p-button-text m-0"></button>
+      <button
+        pButton
+        type="submit"
+        label="Gravar"
+        icon="pi pi-check"
+        form="formulario-departamento"
+        class="p-button-raised m-0"></button>
+    </div>
+  </ng-template>
+</p-dialog>

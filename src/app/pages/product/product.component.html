@@ -15,8 +15,13 @@
   (onFind)="findProducts($event)"
   (onRegisterItem)="registerProduct()"
   (onEditItem)="editProduct($event)"
-  (onDeleteItem)="deleteProduct($event)"
   [loading]="$loadingProducts"
   [columns]="columnsProducts"
   [datas]="products"
   [(reloadTable)]="$reloadTableProducts"></app-table>
+
+<app-product-register-edit
+  [(visible)]="showDialogProduct"
+  [product]="product"
+  (onSave)="saveProduct()">
+</app-product-register-edit>

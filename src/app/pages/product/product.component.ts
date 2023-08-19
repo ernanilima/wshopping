@@ -38,6 +38,8 @@ export class ProductComponent implements OnInit {
   public $loadingProducts = new BehaviorSubject<boolean>(true);
   public columnsProducts = productColumns;
   public products: Page<ProductDto[]>;
+  public product: ProductDto;
+  public showDialogProduct = false;
   public $reloadTableProducts = new BehaviorSubject<boolean>(false);
 
   constructor(private _service: ProductService) {}
@@ -136,10 +138,16 @@ export class ProductComponent implements OnInit {
   }
 
   public editProduct(product: ProductDto): void {
-    console.log('editProduct', product);
+    this.showDialogProduct = true;
+    this.product = product;
   }
 
   public deleteProduct(product: ProductDto): void {
     console.log('deleteProduct', product);
+  }
+
+  public saveProduct(): void {
+    this.$reloadTableProductsNotFound.next(true);
+    this.$reloadTableProducts.next(true);
   }
 }
