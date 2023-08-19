@@ -98,7 +98,11 @@ export class ProductComponent implements OnInit {
   }
 
   public findProducts(eventParams: TableLazyLoadEvent): void {
-    this._findAllProducts(eventParams);
+    if (!PageFilter.of(eventParams)) {
+      this._findAllProducts(eventParams);
+    } else {
+      this._findAllProductsByFilter(eventParams);
+    }
   }
 
   public _findAllProducts(eventParams: TableLazyLoadEvent): void {
@@ -107,6 +111,17 @@ export class ProductComponent implements OnInit {
     this.$loadingProducts.next(true);
     this._service
       .findAllProducts(params)
+      .pipe(catchError(() => of(null)))
+      .subscribe(this._handleProductResult.bind(this));
+  }
+
+  private _findAllProductsByFilter(eventParams: TableLazyLoadEvent): void {
+    const filter = PageFilter.of(eventParams);
+    const params = PageParams.of(eventParams);
+
+    this.$loadingProducts.next(true);
+    this._service
+      .findAllProductsByFilter(filter, params)
       .pipe(catchError(() => of(null)))
       .subscribe(this._handleProductResult.bind(this));
   }

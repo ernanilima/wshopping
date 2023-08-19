@@ -64,4 +64,23 @@ export class ProductService {
         }))
       );
   }
+
+  public findAllProductsByFilter(
+    filter: string,
+    pageBuilder: PageBuilder
+  ): Observable<Page<ProductDto[]>> {
+    const params = pageBuilder.pageQueryString();
+
+    return this._http
+      .get<Page<ProductDto[]>>(
+        `${environment.baseUrl}/v1/produto/pesquisa/${filter}?${params}`
+      )
+      .pipe(take(1))
+      .pipe(
+        map((resp: Page<ProductDto[]>) => ({
+          ...resp,
+          content: resp.content.map((dto) => this._filterService.filter(dto)),
+        }))
+      );
+  }
 }
