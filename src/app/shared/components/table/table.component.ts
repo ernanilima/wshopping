@@ -29,6 +29,8 @@ export class TableComponent implements OnInit, OnDestroy {
   @Output() public onSearchItem = new EventEmitter();
   @Output() public onEditItem = new EventEmitter();
   @Output() public onDeleteItem = new EventEmitter();
+  @Output() public onSelectItem = new EventEmitter();
+  @Input() public isToSelectItem = false;
   @Input() public tableMinWidth = '55rem';
   @Input({ required: true }) public tableTitle: TableTitle;
   @Input({ required: true }) public datas: Page<unknown[]>;
@@ -129,5 +131,9 @@ export class TableComponent implements OnInit, OnDestroy {
         this.onDeleteItem.emit(item);
       },
     });
+  }
+
+  public selectItem(item: unknown): void {
+    this.onSelectItem.emit(item);
   }
 }

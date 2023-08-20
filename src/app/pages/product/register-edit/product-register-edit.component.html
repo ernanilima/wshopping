@@ -51,7 +51,8 @@
                 pButton
                 type="button"
                 class="p-button"
-                icon="pi pi-search"></button>
+                icon="pi pi-search"
+                (click)="openDialogToSelectBrand = true"></button>
               <input
                 pInputText
                 id="brand"
@@ -99,4 +100,13 @@
         class="p-button-raised m-0"></button>
     </div>
   </ng-template>
+</p-dialog>
+
+<p-dialog
+  header="Buscar Marca"
+  [(visible)]="openDialogToSelectBrand"
+  styleClass="w-12 sm:w-10">
+  <app-brand
+    *ngIf="openDialogToSelectBrand"
+    (onSelectedBrand)="resultSelectedBrand($event)"></app-brand>
 </p-dialog>

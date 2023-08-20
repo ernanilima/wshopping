@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BehaviorSubject, catchError, of } from 'rxjs';
 import { TableTitle } from 'src/app/shared/components/table/table.title';
@@ -13,7 +13,10 @@ import { BrandService } from './service/brand.service';
   selector: 'app-brand',
   templateUrl: './brand.component.html',
 })
-export class BrandComponent {
+export class BrandComponent implements OnInit {
+  @Output() public onSelectedBrand = new EventEmitter<BrandDto>();
+  public isToSelectBrand = false;
+
   public tableTitleBrands: TableTitle = {
     title: 'Marcas',
     icon: 'pi-box',
@@ -27,6 +30,10 @@ export class BrandComponent {
   public $reloadTable = new BehaviorSubject<boolean>(false);
 
   constructor(private _service: BrandService) {}
+
+  public ngOnInit(): void {
+    this.isToSelectBrand = this.onSelectedBrand.observed;
+  }
 
   public findBrands(eventParams: TableLazyLoadEvent): void {
     if (!PageFilter.of(eventParams)) {
@@ -92,6 +99,11 @@ export class BrandComponent {
 
         this.$loading.next(false);
       });
+  }
+
+  public selectItem(brand: BrandDto): void {
+    this.isToSelectBrand = false;
+    this.onSelectedBrand.emit(brand);
   }
 
   public save(): void {

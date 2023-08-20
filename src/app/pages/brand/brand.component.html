@@ -4,6 +4,8 @@
   (onRegisterItem)="registerItem()"
   (onEditItem)="editItem($event)"
   (onDeleteItem)="deleteItem($event)"
+  (onSelectItem)="selectItem($event)"
+  [isToSelectItem]="isToSelectBrand"
   [loading]="$loading"
   [columns]="columns"
   [datas]="brands"

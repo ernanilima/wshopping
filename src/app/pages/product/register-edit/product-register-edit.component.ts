@@ -9,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { Observable, interval, map, startWith } from 'rxjs';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
+import { BrandDto } from '../../brand/model/brand.dto';
 import { ProductDto } from '../model/product.dto';
 import { FormProduct } from '../product.form';
 
@@ -23,6 +24,7 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
   @Input() public product?: ProductDto;
 
   public loadingVisible = false;
+  public openDialogToSelectBrand = false;
 
   public form: FormGroup;
   public currentDate$: Observable<Date>;
@@ -53,6 +55,11 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
 
   public getErrorMessage(field: string): string {
     return ValidatorsService.getErrorMessage(field, this.form);
+  }
+
+  public resultSelectedBrand(brand: BrandDto): void {
+    console.log('Marca selecionada', brand);
+    this.openDialogToSelectBrand = false;
   }
 
   private get _isValid(): boolean {

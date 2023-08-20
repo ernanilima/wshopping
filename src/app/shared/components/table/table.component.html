@@ -12,7 +12,7 @@
         <div class="flex justify-content-between flex-column sm:flex-row mb-3">
           <div>
             <button
-              *ngIf="isRegisterItem"
+              *ngIf="isRegisterItem && !isToSelectItem"
               pButton
               label="Cadastrar"
               icon="pi pi-plus"
@@ -82,26 +82,33 @@
               <td *ngIf="isSearchItem || isEditItem || isDeleteItem">
                 <div class="flex">
                   <button
-                    *ngIf="isSearchItem"
+                    *ngIf="isSearchItem && !isToSelectItem"
                     pButton
                     pRipple
                     icon="pi pi-search"
                     class="p-button-rounded p-button-outlined p-button-help mr-2"
                     (click)="searchItem(item)"></button>
                   <button
-                    *ngIf="isEditItem"
+                    *ngIf="isEditItem && !isToSelectItem"
                     pButton
                     pRipple
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-outlined p-button-success mr-2"
                     (click)="editItem(item)"></button>
                   <button
-                    *ngIf="isDeleteItem"
+                    *ngIf="isDeleteItem && !isToSelectItem"
                     pButton
                     pRipple
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-outlined p-button-danger"
                     (click)="deleteItem(item)"></button>
+                  <button
+                    *ngIf="isToSelectItem"
+                    pButton
+                    pRipple
+                    icon="pi pi-check"
+                    class="p-button-rounded p-button-outlined p-button-help"
+                    (click)="selectItem(item)"></button>
                 </div>
               </td>
             </tr>
