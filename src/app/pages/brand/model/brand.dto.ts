@@ -12,23 +12,27 @@ export const brandColumns: Columns[] = [
   {
     name: 'Código',
     field: 'code',
+    fieldToSort: 'code',
     type: 'numeric',
     defaultSort: true,
   },
   {
     name: 'Descrição',
     field: 'description',
+    fieldToSort: 'description',
     type: 'text',
     defaultFilter: true,
   },
   {
     name: 'Produtos',
     field: 'total_products',
+    fieldToSort: 'total_products',
     type: 'numeric',
   },
   {
     name: 'Criação',
     field: 'created_at',
+    fieldToSort: 'created_at',
     type: 'date',
   },
 ];

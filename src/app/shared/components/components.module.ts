@@ -6,6 +6,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
+import { SharedModule } from '../shared.module';
 import { TableComponent } from './table/table.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { TableComponent } from './table/table.component';
     FormsModule,
     TableModule,
     FieldsetModule,
+    SharedModule,
   ],
 })
 export class ComponentsModule {}

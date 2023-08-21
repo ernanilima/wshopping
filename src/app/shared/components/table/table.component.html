@@ -61,13 +61,13 @@
           [loading]="loading.value"
           currentPageReportTemplate="Total de Itens {totalRecords}"
           [tableStyle]="{ 'min-width': tableMinWidth }"
-          [sortField]="defaultSort.field"
+          [sortField]="defaultSort.fieldToSort"
           [sortOrder]="-1">
           <ng-template pTemplate="header" let-columns>
             <tr *ngIf="datas != null">
               <th
                 *ngFor="let column of columns"
-                pSortableColumn="{{ column.field }}">
+                pSortableColumn="{{ column.fieldToSort }}">
                 {{ column.name }}
                 <p-sortIcon field="{{ column.field }}"></p-sortIcon>
               </th>
@@ -78,7 +78,9 @@
           </ng-template>
           <ng-template pTemplate="body" let-item let-columns="columns">
             <tr>
-              <td *ngFor="let column of columns">{{ item[column.field] }}</td>
+              <td *ngFor="let column of columns">
+                {{ item | fieldToTable: column.field }}
+              </td>
               <td *ngIf="isSearchItem || isEditItem || isDeleteItem">
                 <div class="flex">
                   <button
