@@ -27,7 +27,10 @@ export class FormProduct {
           Validators.pattern(ValidatorsService.spacesRegex),
         ],
       ],
-      brand: ['', [Validators.required]],
+      brand: this._formBuilder.group({
+        id: [null, Validators.required],
+        description: [null, Validators.required],
+      }),
     });
   }
 }

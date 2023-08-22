@@ -58,7 +58,7 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
   }
 
   public resultSelectedBrand(brand: BrandDto): void {
-    console.log('Marca selecionada', brand);
+    this.form.patchValue({ brand: brand });
     this.openDialogToSelectBrand = false;
   }
 

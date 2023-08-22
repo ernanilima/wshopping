@@ -11,18 +11,13 @@
     <div class="mt-4 sm:mt-0">
       <form
         [formGroup]="form"
-        id="formulario-departamento"
         autocomplete="off"
         (ngSubmit)="save()"
         class="p-col-12">
         <div class="grid formgrid mt-3">
           <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
             <label htmlFor="code">Código de barras</label>
-            <input
-              pInputText
-              id="barcode"
-              type="text"
-              formControlName="barcode" />
+            <input pInputText type="text" formControlName="barcode" />
             <small class="p-error" *ngIf="fieldWithError('barcode')">{{
               getErrorMessage('barcode')
             }}</small>
@@ -32,7 +27,6 @@
             <label htmlFor="description">Descrição</label>
             <input
               pInputText
-              id="description"
               type="text"
               formControlName="description"
               [value]="form.get('description')?.value | titlecase"
@@ -46,7 +40,7 @@
         <div class="grid formgrid mt-3">
           <div class="col-12 mb-2 flex flex-column gap-2 mb-1">
             <label htmlFor="description">Marca</label>
-            <div class="p-inputgroup">
+            <div class="p-inputgroup" formGroupName="brand">
               <button
                 pButton
                 type="button"
@@ -55,9 +49,8 @@
                 (click)="openDialogToSelectBrand = true"></button>
               <input
                 pInputText
-                id="brand"
                 type="text"
-                formControlName="brand"
+                formControlName="description"
                 readonly />
             </div>
           </div>
@@ -68,7 +61,6 @@
             <label htmlFor="createdAt">Cadastrado em</label>
             <input
               pInputText
-              id="createdAt"
               type="text"
               [value]="
                 product
@@ -97,6 +89,7 @@
         label="Gravar"
         icon="pi pi-check"
         form="formulario-departamento"
+        (click)="save()"
         class="p-button-raised m-0"></button>
     </div>
   </ng-template>
