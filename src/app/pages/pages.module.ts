@@ -14,6 +14,7 @@ import { BrandRegisterEditComponent } from './brand/register-edit/brand-register
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
 import { PagesRoutingModule } from './pages-routing.module';
+import { NotFoundComponent } from './product/not-found/product-not-found.component';
 import { ProductComponent } from './product/product.component';
 import { FormProduct } from './product/product.form';
 import { ProductRegisterEditComponent } from './product/register-edit/product-register-edit.component';
@@ -26,6 +27,7 @@ import { ProductRegisterEditComponent } from './product/register-edit/product-re
     ProductComponent,
     BrandRegisterEditComponent,
     ProductRegisterEditComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,7 @@
         <div class="grid formgrid mt-3">
           <div class="col-12 mb-2 sm:col-4 flex flex-column gap-2 mb-1">
             <label htmlFor="code">Código de barras</label>
-            <input pInputText type="text" formControlName="barcode" />
+            <input pInputText type="text" formControlName="barcode" autofocus />
             <small class="p-error" *ngIf="fieldWithError('barcode')">{{
               getErrorMessage('barcode')
             }}</small>
@@ -29,8 +29,7 @@
               pInputText
               type="text"
               formControlName="description"
-              [value]="form.get('description')?.value | titlecase"
-              autofocus />
+              [value]="form.get('description')?.value | titlecase" />
             <small class="p-error" *ngIf="fieldWithError('description')">{{
               getErrorMessage('description')
             }}</small>

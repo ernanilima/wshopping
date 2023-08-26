@@ -72,6 +72,8 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
 
   public save(): void {
     if (this._isValid) {
+      console.log('save', this.form.getRawValue());
+
       this.onSave.emit(true);
       this.visibleChange.emit(false);
     }

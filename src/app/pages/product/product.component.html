@@ -1,13 +1,6 @@
-<app-table
-  *ngIf="showTableProductsNotFound"
-  [tableTitle]="tableTitleProductsNotFound"
-  [tableMinWidth]="'30rem'"
-  (onFind)="findProductsNotFound($event)"
-  (onSearchItem)="searchProductNotFound($event)"
-  [loading]="$loadingProductsNotFound"
-  [columns]="columnsProductsNotFound"
-  [datas]="productsNotFound"
-  [(reloadTable)]="$reloadTableProductsNotFound"></app-table>
+<app-product-not-found
+  [$reloadTableProductsNotFound]="$reloadTableProductsNotFound">
+</app-product-not-found>
 
 <app-table
   [tableTitle]="tableTitleProducts"
@@ -18,7 +11,8 @@
   [loading]="$loadingProducts"
   [columns]="columnsProducts"
   [datas]="products"
-  [(reloadTable)]="$reloadTableProducts"></app-table>
+  [(reloadTable)]="$reloadTableProducts">
+</app-table>
 
 <app-product-register-edit
   [(visible)]="showDialogProduct"

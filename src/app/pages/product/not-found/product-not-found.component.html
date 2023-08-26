@@ -1,0 +1,11 @@
+<app-table
+  *ngIf="showTableProductsNotFound"
+  [tableTitle]="tableTitleProductsNotFound"
+  [tableMinWidth]="'30rem'"
+  (onFind)="findProductsNotFound($event)"
+  (onSearchItem)="searchProductNotFound($event)"
+  [loading]="$loadingProductsNotFound"
+  [columns]="columnsProductsNotFound"
+  [datas]="productsNotFound"
+  [(reloadTable)]="$reloadTableProductsNotFound">
+</app-table>
