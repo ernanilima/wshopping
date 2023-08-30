@@ -52,6 +52,9 @@
                 formControlName="description"
                 readonly />
             </div>
+            <small class="p-error" *ngIf="fieldWithError('brand.description')"
+              >{{ getErrorMessage('brand.description') }}
+            </small>
           </div>
         </div>
 

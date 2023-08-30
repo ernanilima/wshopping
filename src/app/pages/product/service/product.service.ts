@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, take } from 'rxjs';
 import { Links } from 'src/app/shared/links';
@@ -6,7 +6,8 @@ import { PageBuilder } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
 import { FilterService } from 'src/app/shared/services/filter.service';
 import { environment } from 'src/environments/environment';
-import { ProductDto, ProductNotFoundDto } from '../model/product.dto';
+import { ProductNotFoundDto } from '../model/product-not-found.dto';
+import { ProductDto } from '../model/product.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,20 @@ export class ProductService {
     return this._http
       .get<Links>('assets/links.json')
       .pipe(map((links) => links.searchBarcode));
+  }
+
+  public register(product: ProductDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/produto`;
+    return this._http.post(url, product, {
+      observe: 'response',
+    });
+  }
+
+  public edit(product: ProductDto): Observable<HttpResponse<unknown>> {
+    const url = `${environment.baseUrl}/v1/produto/${product.id}`;
+    return this._http.put(url, product, {
+      observe: 'response',
+    });
   }
 
   public findAllProducts(

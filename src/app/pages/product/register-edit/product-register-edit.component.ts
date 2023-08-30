@@ -7,11 +7,12 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, interval, map, startWith } from 'rxjs';
+import { Observable, finalize, interval, map, startWith } from 'rxjs';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { BrandDto } from '../../brand/model/brand.dto';
 import { ProductDto } from '../model/product.dto';
 import { FormProduct } from '../product.form';
+import { ProductService } from '../service/product.service';
 
 @Component({
   selector: 'app-product-register-edit',
@@ -29,7 +30,10 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
   public form: FormGroup;
   public currentDate$: Observable<Date>;
 
-  constructor(private _form: FormProduct) {
+  constructor(
+    private _form: FormProduct,
+    private _productService: ProductService
+  ) {
     this.currentDate$ = interval(30000).pipe(
       startWith(0),
       map(() => new Date())
@@ -49,7 +53,7 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
 
   public fieldWithError(field: string): boolean {
     return (
-      this.form.controls[field].errors && this.form.controls[field].touched
+      this.form.get(field)?.errors !== null && this.form.get(field)?.touched
     );
   }
 
@@ -72,10 +76,18 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
 
   public save(): void {
     if (this._isValid) {
-      console.log('save', this.form.getRawValue());
+      this.loadingVisible = true;
 
-      this.onSave.emit(true);
-      this.visibleChange.emit(false);
+      const service = !this.product
+        ? this._productService.register(this.form.value)
+        : this._productService.edit(this.form.value);
+
+      service
+        .pipe(finalize(() => (this.loadingVisible = false)))
+        .subscribe(() => {
+          this.onSave.emit(true);
+          this.visibleChange.emit(false);
+        });
     }
   }
 

@@ -8,7 +8,7 @@ import { Page } from 'src/app/shared/params/page-response';
 import {
   ProductNotFoundDto,
   productNotFoundColumns,
-} from '../model/product.dto';
+} from '../model/product-not-found.dto';
 import { ProductService } from '../service/product.service';
 
 @Component({
@@ -75,6 +75,11 @@ export class NotFoundComponent implements OnInit {
   private _handleProductNotFoundResult(
     productsNotFound: Page<ProductNotFoundDto[]>
   ): void {
+    if (productsNotFound && !productsNotFound.content) {
+      this.showTableProductsNotFound = false;
+      return;
+    }
+
     this.productsNotFound = productsNotFound;
     this.$loadingProductsNotFound.next(false);
   }

@@ -36,7 +36,7 @@ export class ProductComponent {
     }
   }
 
-  public _findAllProducts(eventParams: TableLazyLoadEvent): void {
+  private _findAllProducts(eventParams: TableLazyLoadEvent): void {
     const params = PageParams.of(eventParams);
 
     this.$loadingProducts.next(true);
@@ -63,16 +63,13 @@ export class ProductComponent {
   }
 
   public registerProduct(): void {
-    console.log('registerProduct');
+    this.showDialogProduct = true;
+    this.product = null;
   }
 
   public editProduct(product: ProductDto): void {
     this.showDialogProduct = true;
     this.product = product;
-  }
-
-  public deleteProduct(product: ProductDto): void {
-    console.log('deleteProduct', product);
   }
 
   public saveProduct(): void {
