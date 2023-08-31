@@ -1,10 +1,22 @@
-<p>dashboard works!1</p>
-<p>dashboard works!2</p>
-<p>dashboard works!3</p>
-<p>dashboard works!4</p>
-<p>dashboard works!5</p>
-<p>dashboard works!6</p>
-<p>dashboard works!7</p>
-<p>dashboard works!8</p>
-<p>dashboard works!9</p>
-<p>dashboard works!10</p>
+<div class="grid">
+  <app-simple-card
+    class="col-12 lg:col-4"
+    [simpleCard]="cardBrand"></app-simple-card>
+  <app-simple-card
+    class="col-12 lg:col-4"
+    [simpleCard]="cardProduct"></app-simple-card>
+  <app-simple-card
+    class="col-12 lg:col-4"
+    [simpleCard]="cardProductNotFound"></app-simple-card>
+
+  <div class="col-12">
+    <div class="card">
+      <span class="block text-500 font-medium mb-3">
+        Pesquisar produto por Código de Barras
+      </span>
+      <div class="flex flex-column">
+        <input pInputText type="text" autofocus />
+      </div>
+    </div>
+  </div>
+</div>

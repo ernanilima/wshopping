@@ -7,11 +7,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SharedModule } from '../shared.module';
+import { SimpleCardComponent } from './card/simple-card.component';
 import { TableComponent } from './table/table.component';
 
 @NgModule({
-  declarations: [TableComponent],
-  exports: [TableComponent],
+  declarations: [TableComponent, SimpleCardComponent],
+  exports: [TableComponent, SimpleCardComponent],
   imports: [
     CommonModule,
     ToolbarModule,
