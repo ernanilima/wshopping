@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   public cardBrand: SimpleCard = {
+    routerLink: '/marca',
     title: 'Marcas',
     total: 0,
     icon: 'pi-box',
@@ -30,6 +31,7 @@ export class DashboardComponent implements OnInit {
   };
 
   public cardProduct: SimpleCard = {
+    routerLink: '/produto',
     title: 'Produtos',
     total: 0,
     icon: 'pi-shopping-cart',
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit {
   };
 
   public cardProductNotFound: SimpleCard = {
+    routerLink: '/produto',
     title: 'Produtos não encontrados',
     total: 0,
     icon: 'pi-times-circle',

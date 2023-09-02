@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import {
+  DatePipe,
+  HashLocationStrategy,
+  LocationStrategy,
+  TitleCasePipe,
+} from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationService } from 'primeng/api';
@@ -22,7 +27,12 @@ import { MiddlewaresModule } from './middlewares/middlewares.module';
     ToastModule,
     ConfirmDialogModule,
   ],
-  providers: [TitleCasePipe, DatePipe, ConfirmationService],
+  providers: [
+    TitleCasePipe,
+    DatePipe,
+    ConfirmationService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

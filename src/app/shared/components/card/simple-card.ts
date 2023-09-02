@@ -1,4 +1,5 @@
 export interface SimpleCard {
+  routerLink: string;
   title: string;
   total: number;
   icon: string;

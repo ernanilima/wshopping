@@ -14,6 +14,7 @@ import { SimpleCard } from './simple-card';
 export class SimpleCardComponent implements OnInit, OnChanges {
   @Input({ required: true }) public simpleCard: SimpleCard;
 
+  public routerLink: string;
   public title: string;
   public total: number;
   public icon: string;
@@ -21,6 +22,7 @@ export class SimpleCardComponent implements OnInit, OnChanges {
   public iconBackground: string;
 
   public ngOnInit(): void {
+    this.routerLink = this.simpleCard.routerLink;
     this.title = this.simpleCard.title;
     this.icon = this.simpleCard.icon;
     this.iconColor = 'text-' + this.simpleCard.iconColor + '-500';

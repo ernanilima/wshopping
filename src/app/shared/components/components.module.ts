@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,6 +16,7 @@ import { TableComponent } from './table/table.component';
   exports: [TableComponent, SimpleCardComponent],
   imports: [
     CommonModule,
+    RouterModule,
     ToolbarModule,
     ButtonModule,
     InputTextModule,
