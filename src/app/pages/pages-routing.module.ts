@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrandComponent } from './brand/brand.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
 import { ProductComponent } from './product/product.component';
 

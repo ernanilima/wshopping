@@ -1,11 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { SimpleCard } from './simple-card';
 
 @Component({
   selector: 'app-simple-card',
   templateUrl: './simple-card.component.html',
 })
-export class SimpleCardComponent implements OnInit {
+export class SimpleCardComponent implements OnInit, OnChanges {
   @Input({ required: true }) public simpleCard: SimpleCard;
 
   public title: string;
@@ -16,9 +22,12 @@ export class SimpleCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.title = this.simpleCard.title;
-    this.total = this.simpleCard.total;
     this.icon = this.simpleCard.icon;
     this.iconColor = 'text-' + this.simpleCard.iconColor + '-500';
     this.iconBackground = 'bg-' + this.simpleCard.iconColor + '-100';
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.total = changes['simpleCard'].currentValue.total;
   }
 }

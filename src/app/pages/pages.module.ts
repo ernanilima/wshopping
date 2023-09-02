@@ -11,7 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { BrandComponent } from './brand/brand.component';
 import { FormBrand } from './brand/brand.form';
 import { BrandRegisterEditComponent } from './brand/register-edit/brand-register-edit.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { NotFoundComponent } from './product/not-found/product-not-found.component';
