@@ -14,6 +14,7 @@ import { FormBrand } from './brand/brand.form';
 import { BrandRegisterEditComponent } from './brand/register-edit/brand-register-edit.component';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { MainComponent } from './main/main.component';
+import { ResultProductComponent } from './main/result/product/result-product.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { NotFoundComponent } from './product/not-found/product-not-found.component';
 import { ProductComponent } from './product/product.component';
@@ -29,6 +30,7 @@ import { ProductRegisterEditComponent } from './product/register-edit/product-re
     BrandRegisterEditComponent,
     ProductRegisterEditComponent,
     NotFoundComponent,
+    ResultProductComponent,
   ],
   imports: [
     CommonModule,

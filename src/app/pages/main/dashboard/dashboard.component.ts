@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable, finalize } from 'rxjs';
 import { SimpleCard } from 'src/app/shared/components/card/simple-card';
+import { ProductDto } from '../../product/model/product.dto';
 import { ProductService } from '../../product/service/product.service';
 import { DashboardService } from '../service/dashboard.service';
 
@@ -52,6 +53,9 @@ export class DashboardComponent implements OnInit {
     icon: 'pi-times-circle',
     iconColor: 'red',
   };
+
+  public openDialogResultProduct = false;
+  public product?: ProductDto;
 
   constructor(
     private _dashboardService: DashboardService,
@@ -121,8 +125,9 @@ export class DashboardComponent implements OnInit {
     this._productService
       .findProductByBarcode(this._barcode.nativeElement.value)
       .pipe(finalize(() => this._setShowLoading('findProductByBarcode', false)))
-      .subscribe((result) => {
-        console.log('RESULTADO', result);
+      .subscribe((product) => {
+        this.product = product;
+        this.openDialogResultProduct = true;
       });
   }
 }

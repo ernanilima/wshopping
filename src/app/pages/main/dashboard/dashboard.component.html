@@ -11,7 +11,7 @@
   <div class="col-12">
     <div class="card">
       <span class="block text-500 font-medium mb-3">
-        Pesquisar por Código de Barras
+        Pesquisar por Código de barras
       </span>
       <div class="p-inputgroup">
         <input
@@ -31,3 +31,13 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  header="Produto"
+  [(visible)]="openDialogResultProduct"
+  [modal]="true"
+  styleClass="w-12 lg:w-6 md:w-8 sm:w-10">
+  <app-result-product
+    *ngIf="openDialogResultProduct"
+    [product]="product"></app-result-product>
+</p-dialog>
