@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable, finalize } from 'rxjs';
 import { SimpleCard } from 'src/app/shared/components/card/simple-card';
+import { ProductService } from '../../product/service/product.service';
 import { DashboardService } from '../service/dashboard.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('barcode') private _barcode: ElementRef;
+
   private _observables: { name: string; showLoading: boolean }[] = [
     {
       name: this._dashboardService.findTotalBrands.name,
@@ -18,6 +21,10 @@ export class DashboardComponent implements OnInit {
     },
     {
       name: this._dashboardService.findTotalProductsNotFound.name,
+      showLoading: false,
+    },
+    {
+      name: this._productService.findProductByBarcode.name,
       showLoading: false,
     },
   ];
@@ -46,7 +53,10 @@ export class DashboardComponent implements OnInit {
     iconColor: 'red',
   };
 
-  constructor(private _dashboardService: DashboardService) {}
+  constructor(
+    private _dashboardService: DashboardService,
+    private _productService: ProductService
+  ) {}
 
   public ngOnInit(): void {
     this._reloadTotalBrands();
@@ -100,6 +110,19 @@ export class DashboardComponent implements OnInit {
       .pipe(finalize(() => this._setShowLoading(name, false)))
       .subscribe((total) => {
         callback(total);
+      });
+  }
+
+  public findProductByBarcode(): void {
+    if (!this._barcode.nativeElement.value) return;
+
+    this._setShowLoading('findProductByBarcode', true);
+
+    this._productService
+      .findProductByBarcode(this._barcode.nativeElement.value)
+      .pipe(finalize(() => this._setShowLoading('findProductByBarcode', false)))
+      .subscribe((result) => {
+        console.log('RESULTADO', result);
       });
   }
 }

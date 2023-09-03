@@ -1,4 +1,11 @@
-<div class="card mb-0 hover:shadow-1 cursor-pointer" [routerLink]="routerLink">
+<div
+  [ngClass]="[
+    'card',
+    'mb-0',
+    'hover:shadow-1',
+    total > 0 ? 'cursor-pointer' : ''
+  ]"
+  [routerLink]="total > 0 ? routerLink : ''">
   <div class="flex justify-content-between">
     <div>
       <span class="block text-500 font-medium mb-3">

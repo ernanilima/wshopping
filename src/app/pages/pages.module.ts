@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { LayoutModule } from '../layout/layout.module';
 import { ComponentsModule } from '../shared/components/components.module';
 import { SharedModule } from '../shared/shared.module';
@@ -38,6 +39,7 @@ import { ProductRegisterEditComponent } from './product/register-edit/product-re
     ButtonModule,
     InputTextModule,
     DialogModule,
+    KeyFilterModule,
     ReactiveFormsModule,
   ],
   providers: [FormBrand, FormProduct],

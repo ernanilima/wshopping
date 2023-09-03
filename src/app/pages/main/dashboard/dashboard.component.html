@@ -1,23 +1,32 @@
 <app-loading [display]="showLoading"></app-loading>
 
 <div class="grid">
-  <app-simple-card
-    class="col-12 lg:col-4"
-    [simpleCard]="cardBrand"></app-simple-card>
-  <app-simple-card
-    class="col-12 lg:col-4"
-    [simpleCard]="cardProduct"></app-simple-card>
-  <app-simple-card
-    class="col-12 lg:col-4"
-    [simpleCard]="cardProductNotFound"></app-simple-card>
+  <app-simple-card class="col-12 lg:col-4" [simpleCard]="cardBrand">
+  </app-simple-card>
+  <app-simple-card class="col-12 lg:col-4" [simpleCard]="cardProduct">
+  </app-simple-card>
+  <app-simple-card class="col-12 lg:col-4" [simpleCard]="cardProductNotFound">
+  </app-simple-card>
 
   <div class="col-12">
     <div class="card">
       <span class="block text-500 font-medium mb-3">
-        Pesquisar produto por Código de Barras
+        Pesquisar por Código de Barras
       </span>
-      <div class="flex flex-column">
-        <input pInputText type="text" autofocus />
+      <div class="p-inputgroup">
+        <input
+          #barcode
+          pInputText
+          pKeyFilter="int"
+          type="text"
+          autofocus
+          [maxLength]="14"
+          (keyup.enter)="findProductByBarcode()" />
+        <button
+          pButton
+          icon="pi pi-search"
+          class="p-button"
+          (click)="findProductByBarcode()"></button>
       </div>
     </div>
   </div>

@@ -98,4 +98,11 @@ export class ProductService {
         }))
       );
   }
+
+  public findProductByBarcode(barcode: string): Observable<ProductDto> {
+    const baseUrl = environment.baseUrl;
+    return this._http
+      .get<ProductDto>(`${baseUrl}/v1/produto/codigo-barras/${barcode}`)
+      .pipe(take(1));
+  }
 }
