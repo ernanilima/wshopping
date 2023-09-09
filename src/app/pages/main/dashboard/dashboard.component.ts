@@ -125,9 +125,12 @@ export class DashboardComponent implements OnInit {
     this._productService
       .findProductByBarcode(this._barcode.nativeElement.value)
       .pipe(finalize(() => this._setShowLoading('findProductByBarcode', false)))
-      .subscribe((product) => {
-        this.product = product;
-        this.openDialogResultProduct = true;
+      .subscribe({
+        next: (product) => {
+          this.product = product;
+          this.openDialogResultProduct = true;
+        },
+        error: () => this._reloadTotalProductsNotFound(),
       });
   }
 }
