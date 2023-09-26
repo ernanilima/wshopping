@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  wshopping-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9876:9876
+    volumes:
+      - .:/home/node/dev/wshopping
+    command: ['npm', 'test', '--', '--watch=false']
