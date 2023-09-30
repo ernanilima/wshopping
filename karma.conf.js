@@ -16,13 +16,9 @@ module.exports = function (config) {
       suppressAll: true,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/wshopping'),
+      dir: require('path').join(__dirname, './coverage'),
       subdir: '.',
-      reporters: [
-        { type: 'html' },
-        { type: 'lcovonly' },
-        { type: 'text-summary' },
-      ],
+      reporters: [{ type: 'lcov', subdir: 'unit' }, { type: 'text-summary' }],
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,

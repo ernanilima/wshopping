@@ -8,5 +8,8 @@ services:
     ports:
       - 4200:4200
     volumes:
-      - .:/home/node/dev/wshopping
-    command: ['npm', 'start', '--', '--host', '0.0.0.0', '--disable-host-check']
+      - .:/home/node/wshopping
+    command: >
+      bash -c 'npm cache clean --force &&
+               npm install --legacy-peer-deps &&
+               npm start -- --host 0.0.0.0 --disable-host-check'
