@@ -43,8 +43,4 @@ export class ItemComponent {
   public get menuItem(): MenuItem {
     return this.item as MenuItem;
   }
-
-  public itemClick(value: MenuItem): void {
-    console.log(value);
-  }
 }

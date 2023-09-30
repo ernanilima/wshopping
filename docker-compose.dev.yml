@@ -4,8 +4,9 @@ services:
   wshopping:
     build:
       context: .
-      dockerfile: ./Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - 4200:4200
     volumes:
       - .:/home/node/dev/wshopping
+    command: ['npm', 'start', '--', '--host', '0.0.0.0', '--disable-host-check']

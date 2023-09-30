@@ -4,7 +4,6 @@
   </div>
   <a
     *ngIf="isMenuItem(item)"
-    (click)="itemClick(menuItem)"
     [routerLink]="menuItem.routerLink"
     routerLinkActive="active-route"
     [routerLinkActiveOptions]="{
