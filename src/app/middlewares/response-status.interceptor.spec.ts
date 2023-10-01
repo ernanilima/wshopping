@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ResponseStatusInterceptor } from './response-status.interceptor';
+import { MiddlewaresModule } from './middlewares.module';
 
 describe('ResponseStatusInterceptor', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [ResponseStatusInterceptor],
+      imports: [MiddlewaresModule],
     })
   );
 
