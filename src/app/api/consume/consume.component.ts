@@ -14,6 +14,10 @@ export class ConsumeComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.urlToApi();
+  }
+
+  protected urlToApi(): void {
     this._service
       .getUrlToApi()
       .pipe(map((data) => data.concat(this._paramsToAccessAPI)))
