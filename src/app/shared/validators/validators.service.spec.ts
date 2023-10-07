@@ -1,12 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ValidatorsService } from './validators.service';
 
 describe('ValidatorsService', () => {
   let service: ValidatorsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ValidatorsService,
+          useValue: jasmine.createSpyObj('validatorsServiceMock', ['']),
+        },
+      ],
+    });
     service = TestBed.inject(ValidatorsService);
   });
 
