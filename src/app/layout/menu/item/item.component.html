@@ -20,7 +20,7 @@
 
   <ul *ngIf="!isMenuItem(item)">
     <ng-template ngFor let-child let-i="index" [ngForOf]="menuCategory.items">
-      <li app-menuitem [item]="child" [index]="i"></li>
+      <li app-menuitem [item]="child" [index]="i" [root]="false"></li>
     </ng-template>
   </ul>
 </ng-container>

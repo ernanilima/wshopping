@@ -23,11 +23,13 @@ import { MenuCategory, MenuItem } from '../model/menu.category';
   ],
 })
 export class ItemComponent {
-  @Input() public item: MenuCategory | MenuItem;
+  @Input({ required: true }) public item: MenuCategory | MenuItem;
 
-  @Input() public index: number;
+  @Input({ required: true }) public index: number;
 
-  @Input() @HostBinding('class.layout-root-menuitem') public root: boolean;
+  @Input({ required: true })
+  @HostBinding('class.layout-root-menuitem')
+  public root: boolean;
 
   public isMenuItem(value: MenuCategory | MenuItem): boolean {
     return (
