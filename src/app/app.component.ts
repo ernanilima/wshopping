@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public title = 'wshopping';
+  public static get APPLICATION_NAME(): string {
+    return document.title || 'WShopping';
+  }
 }

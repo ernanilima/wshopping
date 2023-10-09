@@ -1,7 +1,6 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-
 import { LayoutService } from 'src/app/layout/service/layout.service';
 import { AppSidebarComponent } from 'src/app/layout/sidebar/app.sidebar.component';
 import { AppTopbarComponent } from 'src/app/layout/topbar/app.topbar.component';
@@ -41,16 +40,13 @@ export class MainComponent {
   }
 
   private _hideMenu(): void {
-    this._layoutService.state.staticMenuMobileActive = false;
+    this._layoutService.state.isMenuMobile = false;
   }
 
   public get containerClass(): Record<string, boolean> {
     return {
-      'layout-static': this._layoutService.config.menuMode === 'static',
-      'layout-static-inactive':
-        this._layoutService.state.staticMenuDesktopInactive &&
-        this._layoutService.config.menuMode === 'static',
-      'layout-mobile-active': this._layoutService.state.staticMenuMobileActive,
+      'layout-static-inactive': this._layoutService.state.isMenuDesktop,
+      'layout-mobile-active': this._layoutService.state.isMenuMobile,
     };
   }
 }

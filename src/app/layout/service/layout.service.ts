@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-
-export interface AppConfig {
-  menuMode: string;
-}
-
-interface LayoutState {
-  staticMenuDesktopInactive: boolean;
-  staticMenuMobileActive: boolean;
-}
+import { LayoutState } from '../interface/layout-state.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,25 +10,21 @@ export class LayoutService {
 
   public overlayOpen$ = this._overlayOpen.asObservable();
 
-  public config: AppConfig = {
-    menuMode: 'static',
-  };
-
   public state: LayoutState = {
-    staticMenuDesktopInactive: false,
-    staticMenuMobileActive: false,
+    isMenuDesktop: false,
+    isMenuMobile: false,
   };
 
   public onMenuToggle(): void {
     if (this._isDesktop()) {
-      this.state.staticMenuDesktopInactive =
-        !this.state.staticMenuDesktopInactive;
-    } else {
-      this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
+      this.state.isMenuDesktop = !this.state.isMenuDesktop;
+      return;
+    }
 
-      if (this.state.staticMenuMobileActive) {
-        this._overlayOpen.next(null);
-      }
+    this.state.isMenuMobile = !this.state.isMenuMobile;
+
+    if (this.state.isMenuMobile) {
+      this._overlayOpen.next(null);
     }
   }
 

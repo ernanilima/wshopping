@@ -18,8 +18,6 @@ describe('AppComponent', () => {
   });
 
   it('should have as title "wshopping"', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('wshopping');
+    expect(AppComponent.APPLICATION_NAME).toEqual('WShopping');
   });
 });
