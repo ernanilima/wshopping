@@ -28,11 +28,13 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
   public form: FormGroup;
   public currentDate$: Observable<Date>;
 
+  private _millisecondsToReloadTime = 30000;
+
   constructor(
     private _form: FormBrand,
     private _brandService: BrandService
   ) {
-    this.currentDate$ = interval(30000).pipe(
+    this.currentDate$ = interval(this._millisecondsToReloadTime).pipe(
       startWith(0),
       map(() => new Date())
     );
