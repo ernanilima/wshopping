@@ -23,14 +23,15 @@ describe('ConsumeService', () => {
 
   describe('getUrlToApi', () => {
     it('should get the URL for API', () => {
-      const apiJsonMock = { url: 'http://gshopping-api.com' };
+      const expected = { url: 'http://gshopping-api.com' };
 
       service.getUrlToApi().subscribe((url) => {
-        expect(url).toBe('http://gshopping-api.com');
+        expect(url).toEqual(expected.url);
       });
 
       const req = httpMock.expectOne('assets/api.json');
-      req.flush(apiJsonMock);
+      expect(req.request.method).toEqual('GET');
+      req.flush(expected);
     });
   });
 });
