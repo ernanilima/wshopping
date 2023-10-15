@@ -43,7 +43,7 @@ export class BrandComponent implements OnInit {
     }
   }
 
-  private _findAllBrands(eventParams: TableLazyLoadEvent): void {
+  protected _findAllBrands(eventParams: TableLazyLoadEvent): void {
     const params = PageParams.of(eventParams);
 
     this.$loading.next(true);
@@ -53,7 +53,7 @@ export class BrandComponent implements OnInit {
       .subscribe(this._handleBrandResult.bind(this));
   }
 
-  private _findAllBrandsByDescription(eventParams: TableLazyLoadEvent): void {
+  protected _findAllBrandsByDescription(eventParams: TableLazyLoadEvent): void {
     const description = PageFilter.of(eventParams);
     const params = PageParams.of(eventParams);
 
