@@ -76,21 +76,21 @@ export class DashboardComponent implements OnInit {
     this._observables.find((item) => item.name === name).showLoading = visible;
   }
 
-  private _reloadTotalBrands(): void {
+  protected _reloadTotalBrands(): void {
     this._reloadTotalData(
       this._dashboardService.findTotalBrands,
       (total) => (this.cardBrand = { ...this.cardBrand, total: total })
     );
   }
 
-  private _reloadTotalProducts(): void {
+  protected _reloadTotalProducts(): void {
     this._reloadTotalData(
       this._dashboardService.findTotalProducts,
       (total) => (this.cardProduct = { ...this.cardProduct, total: total })
     );
   }
 
-  private _reloadTotalProductsNotFound(): void {
+  protected _reloadTotalProductsNotFound(): void {
     this._reloadTotalData(
       this._dashboardService.findTotalProductsNotFound,
       (total) => {
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  private _reloadTotalData(
+  protected _reloadTotalData(
     serviceMethod: () => Observable<number>,
     callback: (total: number) => void
   ): void {
