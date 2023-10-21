@@ -1,17 +1,28 @@
 <div class="grid formgrid">
   <div class="col-12 md:col-4 flex flex-column gap-2">
     <label htmlFor="code">Código de barras</label>
-    <input pInputText type="text" [value]="product.barcode" readonly />
+    <input
+      id="barcode"
+      pInputText
+      type="text"
+      [value]="product.barcode"
+      readonly />
   </div>
 
   <div class="col-12 mb-2 flex flex-column gap-2 mb-1 mt-3">
     <label htmlFor="description">Descrição</label>
-    <input pInputText type="text" [value]="product.description" readonly />
+    <input
+      id="productDescription"
+      pInputText
+      type="text"
+      [value]="product.description"
+      readonly />
   </div>
 
   <div class="col-12 mb-2 md:col-8 flex flex-column gap-2 mb-1 mt-3">
     <label htmlFor="description">Marca</label>
     <input
+      id="brandDescription"
       pInputText
       type="text"
       [value]="product.brand.description"
@@ -21,6 +32,7 @@
   <div class="col-12 mb-2 md:col-4 flex flex-column gap-2 mb-1 mt-3">
     <label htmlFor="createdAt">Cadastrado em</label>
     <input
+      id="productCreatedAt"
       pInputText
       type="text"
       [value]="product.created_at | date: 'dd/MM/yyyy'"
