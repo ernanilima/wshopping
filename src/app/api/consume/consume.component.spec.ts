@@ -76,10 +76,7 @@ describe('ConsumeComponent', () => {
 
       fixture.whenStable().then(() => {
         expect(componentMock._service.getUrlToApi).toHaveBeenCalled();
-        expect(console.log).toHaveBeenCalledWith(
-          'url completa',
-          'http://gshopping-api.com'
-        );
+        expect(console.log).toHaveBeenCalledWith('has url', true);
       });
     }));
   });

@@ -55,7 +55,7 @@ describe('LayoutService', () => {
 
       service.onMenuToggle();
 
-      expect(overlayOpenSpy).toHaveBeenCalledOnceWith(null);
+      expect(overlayOpenSpy).toHaveBeenCalledOnceWith();
     });
 
     it('should not emit overlayOpen event when isMenuMobile is false', () => {

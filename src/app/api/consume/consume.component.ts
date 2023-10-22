@@ -22,7 +22,7 @@ export class ConsumeComponent implements OnInit {
       .getUrlToApi()
       .pipe(map((data) => data.concat(this._paramsToAccessAPI)))
       .subscribe((data) => {
-        console.log('url completa', data);
+        console.log('has url', data != null);
       });
   }
 

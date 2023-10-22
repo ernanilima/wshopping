@@ -6,9 +6,9 @@ import { LayoutState } from '../interface/layout-state.interface';
   providedIn: 'root',
 })
 export class LayoutService {
-  private _overlayOpen = new Subject<unknown>();
+  private _overlayOpen = new Subject<void>();
 
-  public overlayOpen$ = this._overlayOpen.asObservable();
+  public openOverlayForMenuMobile$ = this._overlayOpen.asObservable();
 
   public state: LayoutState = {
     isMenuDesktop: false,
@@ -24,7 +24,7 @@ export class LayoutService {
     this.state.isMenuMobile = !this.state.isMenuMobile;
 
     if (this.state.isMenuMobile) {
-      this._overlayOpen.next(null);
+      this._overlayOpen.next();
     }
   }
 
