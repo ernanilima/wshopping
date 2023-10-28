@@ -7,11 +7,21 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  takeUntil,
+} from 'rxjs';
 import { Columns } from '../../columns';
 import { Page } from '../../params/page-response';
+import { ValidatorsService } from '../../validators/validators.service';
 import { TableTitle } from './table.title';
 
 @Component({
@@ -52,11 +62,12 @@ export class TableComponent implements OnInit, OnDestroy {
     });
   }
 
-  public value = '';
   public isRegisterItem = false;
   public isSearchItem = false;
   public isEditItem = false;
   public isDeleteItem = false;
+
+  public form: FormGroup;
 
   public get defaultSort(): Columns {
     return this.columns.find((c: Columns) => c.defaultSort);
@@ -76,9 +87,16 @@ export class TableComponent implements OnInit, OnDestroy {
     return this.datas?.totalElements;
   }
 
-  constructor(private _confirmationService: ConfirmationService) {}
+  constructor(
+    private _confirmationService: ConfirmationService,
+    private _formBuilder: FormBuilder
+  ) {}
 
   public ngOnInit(): void {
+    this.form = this._createForm();
+
+    this._watchFilterGlobalValueChanges();
+
     this.isRegisterItem = this.onRegisterItem.observed;
     this.isSearchItem = this.onSearchItem.observed;
     this.isEditItem = this.onEditItem.observed;
@@ -90,14 +108,32 @@ export class TableComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
-  public onGlobalFilter(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
-    this._table.filterGlobal(this.value, 'contains');
+  public fieldWithError(field: string): boolean {
+    return this.form.get(field)?.errors !== null;
+  }
+
+  public getErrorMessage(field: string): string {
+    return ValidatorsService.getErrorMessage(field, this.form);
+  }
+
+  protected _watchFilterGlobalValueChanges(): void {
+    const field = 'filterGlobal';
+    this.form.controls[field].valueChanges
+      .pipe(
+        map((value: string) => value.trim()),
+        distinctUntilChanged(),
+        debounceTime(400),
+        filter(() => !this.fieldWithError(field)),
+        takeUntil(this._unsubscribeAll)
+      )
+      .subscribe((value: string) => {
+        this._table.filterGlobal(value, 'contains');
+      });
   }
 
   public clear(): void {
-    this.value = null;
-    this._filter.value = this.value;
+    this.form.controls['filterGlobal'].reset();
+    this._filter.value = null;
     this._table.clearFilterValues();
     this._table.sortSingle();
   }
@@ -135,5 +171,18 @@ export class TableComponent implements OnInit, OnDestroy {
 
   public selectItem(item: unknown): void {
     this.onSelectItem.emit(item);
+  }
+
+  private _createForm(): FormGroup {
+    return this._formBuilder.group({
+      filterGlobal: [
+        null,
+        [
+          Validators.minLength(2),
+          Validators.maxLength(20),
+          Validators.pattern(ValidatorsService.urlRegex),
+        ],
+      ],
+    });
   }
 }

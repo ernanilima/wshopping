@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -20,7 +20,7 @@ import { TableComponent } from './table/table.component';
     ToolbarModule,
     ButtonModule,
     InputTextModule,
-    FormsModule,
+    ReactiveFormsModule,
     TableModule,
     FieldsetModule,
     SharedModule,

@@ -20,23 +20,28 @@
               (click)="registerItem()"></button>
           </div>
 
-          <div class="p-inputgroup sm:w-max mb-2">
-            <span class="p-inputgroup-addon bg-transparent">
-              <i class="pi pi-search"></i>
-            </span>
-            <input
-              #filter
-              pInputText
-              type="text"
-              (input)="onGlobalFilter($event)"
-              [ngModel]="value | titlecase"
-              [placeholder]="defaultFilterPlaceholder" />
-            <button
-              pButton
-              type="button"
-              class="p-button"
-              icon="pi pi-times"
-              (click)="clear()"></button>
+          <div class="mb-2">
+            <div [formGroup]="form" class="p-inputgroup sm:w-max">
+              <span class="p-inputgroup-addon bg-transparent">
+                <i class="pi pi-search"></i>
+              </span>
+              <input
+                #filter
+                pInputText
+                type="text"
+                formControlName="filterGlobal"
+                [value]="form.get('filterGlobal')?.value | titlecase"
+                [placeholder]="defaultFilterPlaceholder" />
+              <button
+                pButton
+                type="button"
+                class="p-button"
+                icon="pi pi-times"
+                (click)="clear()"></button>
+            </div>
+            <small class="p-error" *ngIf="fieldWithError('filterGlobal')">{{
+              getErrorMessage('filterGlobal')
+            }}</small>
           </div>
         </div>
 
