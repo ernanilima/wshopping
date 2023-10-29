@@ -13,14 +13,12 @@
       <span class="block text-500 font-medium mb-3">
         Pesquisar por Código de barras
       </span>
-      <div class="p-inputgroup">
+      <div [formGroup]="form" class="p-inputgroup">
         <input
-          #barcode
           pInputText
-          pKeyFilter="int"
           type="text"
           autofocus
-          [maxLength]="14"
+          formControlName="barcode"
           (keyup.enter)="findProductByBarcode()" />
         <button
           pButton
@@ -28,6 +26,9 @@
           class="p-button"
           (click)="findProductByBarcode()"></button>
       </div>
+      <small class="p-error" *ngIf="fieldWithError('barcode')">{{
+        getErrorMessage('barcode')
+      }}</small>
     </div>
   </div>
 </div>

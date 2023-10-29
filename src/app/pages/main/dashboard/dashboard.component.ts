@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable, finalize } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subject, finalize, takeUntil } from 'rxjs';
 import { SimpleCard } from 'src/app/shared/components/card/simple-card';
+import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { ProductDto } from '../../product/model/product.dto';
 import { ProductService } from '../../product/service/product.service';
 import { DashboardService } from '../service/dashboard.service';
@@ -8,8 +10,8 @@ import { DashboardService } from '../service/dashboard.service';
 @Component({
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit {
-  @ViewChild('barcode') private _barcode: ElementRef;
+export class DashboardComponent implements OnInit, OnDestroy {
+  private _unsubscribeAll = new Subject();
 
   private _observables: { name: string; showLoading: boolean }[] = [
     {
@@ -54,22 +56,39 @@ export class DashboardComponent implements OnInit {
     iconColor: 'red',
   };
 
+  public get showLoading(): boolean {
+    return this._observables.some((item) => item.showLoading);
+  }
+
   public openDialogResultProduct = false;
   public product?: ProductDto;
+  public form: FormGroup;
 
   constructor(
     private _dashboardService: DashboardService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private _formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
+    this.form = this._createForm();
+
     this._reloadTotalBrands();
     this._reloadTotalProducts();
     this._reloadTotalProductsNotFound();
   }
 
-  public get showLoading(): boolean {
-    return this._observables.some((item) => item.showLoading);
+  public ngOnDestroy(): void {
+    this._unsubscribeAll.next(true);
+    this._unsubscribeAll.complete();
+  }
+
+  public fieldWithError(field: string): boolean {
+    return this.form.get(field)?.errors !== null;
+  }
+
+  public getErrorMessage(field: string): string {
+    return ValidatorsService.getErrorMessage(field, this.form);
   }
 
   private _setShowLoading(name: string, visible: boolean): void {
@@ -118,13 +137,17 @@ export class DashboardComponent implements OnInit {
   }
 
   public findProductByBarcode(): void {
-    if (!this._barcode.nativeElement.value) return;
+    if (this.fieldWithError('barcode') || !this.form.controls['barcode'].value)
+      return;
 
     this._setShowLoading('findProductByBarcode', true);
 
     this._productService
-      .findProductByBarcode(this._barcode.nativeElement.value)
-      .pipe(finalize(() => this._setShowLoading('findProductByBarcode', false)))
+      .findProductByBarcode(this.form.controls['barcode'].value)
+      .pipe(
+        finalize(() => this._setShowLoading('findProductByBarcode', false)),
+        takeUntil(this._unsubscribeAll)
+      )
       .subscribe({
         next: (product) => {
           this.product = product;
@@ -132,5 +155,18 @@ export class DashboardComponent implements OnInit {
         },
         error: () => this._reloadTotalProductsNotFound(),
       });
+  }
+
+  private _createForm(): FormGroup {
+    return this._formBuilder.group({
+      barcode: [
+        null,
+        [
+          Validators.minLength(8),
+          Validators.maxLength(14),
+          Validators.pattern(ValidatorsService.numbersRegex),
+        ],
+      ],
+    });
   }
 }
