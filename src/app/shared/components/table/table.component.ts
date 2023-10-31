@@ -12,13 +12,13 @@ import { ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import {
   BehaviorSubject,
-  Subject,
   debounceTime,
   distinctUntilChanged,
   filter,
   map,
   takeUntil,
 } from 'rxjs';
+import { BaseValidationDirective } from '../../base/base-validation.directive';
 import { Columns } from '../../columns';
 import { Page } from '../../params/page-response';
 import { ValidatorsService } from '../../validators/validators.service';
@@ -28,9 +28,10 @@ import { TableTitle } from './table.title';
   selector: 'app-table',
   templateUrl: './table.component.html',
 })
-export class TableComponent implements OnInit, OnDestroy {
-  private _unsubscribeAll = new Subject();
-
+export class TableComponent
+  extends BaseValidationDirective
+  implements OnInit, OnDestroy
+{
   @ViewChild('table') private _table: Table;
   @ViewChild('filter') private _filter: HTMLInputElement;
 
@@ -53,7 +54,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public set reloadTable(
     behaviorSubject: BehaviorSubject<boolean>
   ) {
-    behaviorSubject.pipe(takeUntil(this._unsubscribeAll)).subscribe((value) => {
+    behaviorSubject.pipe(takeUntil(this._unsubscribe$)).subscribe((value) => {
       if (!value) return;
       this.reloadTableChange.emit(new BehaviorSubject(false));
       this._table.sortField = this.defaultSort.field;
@@ -66,8 +67,6 @@ export class TableComponent implements OnInit, OnDestroy {
   public isSearchItem = false;
   public isEditItem = false;
   public isDeleteItem = false;
-
-  public form: FormGroup;
 
   public get defaultSort(): Columns {
     return this.columns.find((c: Columns) => c.defaultSort);
@@ -90,7 +89,9 @@ export class TableComponent implements OnInit, OnDestroy {
   constructor(
     private _confirmationService: ConfirmationService,
     private _formBuilder: FormBuilder
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.form = this._createForm();
@@ -103,17 +104,8 @@ export class TableComponent implements OnInit, OnDestroy {
     this.isDeleteItem = this.onDeleteItem.observed;
   }
 
-  public ngOnDestroy(): void {
-    this._unsubscribeAll.next(true);
-    this._unsubscribeAll.complete();
-  }
-
-  public fieldWithError(field: string): boolean {
+  protected override fieldWithError(field: string): boolean {
     return this.form.get(field)?.errors !== null;
-  }
-
-  public getErrorMessage(field: string): string {
-    return ValidatorsService.getErrorMessage(field, this.form);
   }
 
   protected _watchFilterGlobalValueChanges(): void {
@@ -124,7 +116,7 @@ export class TableComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         debounceTime(400),
         filter(() => !this.fieldWithError(field)),
-        takeUntil(this._unsubscribeAll)
+        takeUntil(this._unsubscribe$)
       )
       .subscribe((value: string) => {
         this._table.filterGlobal(value, 'contains');

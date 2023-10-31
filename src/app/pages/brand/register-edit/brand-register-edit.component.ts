@@ -3,12 +3,19 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable, finalize, interval, map, startWith } from 'rxjs';
-import { ValidatorsService } from 'src/app/shared/validators/validators.service';
+import {
+  Observable,
+  finalize,
+  interval,
+  map,
+  startWith,
+  takeUntil,
+} from 'rxjs';
+import { BaseValidationDirective } from 'src/app/shared/base/base-validation.directive';
 import { FormBrand } from '../brand.form';
 import { BrandDto } from '../model/brand.dto';
 import { BrandService } from '../service/brand.service';
@@ -17,7 +24,10 @@ import { BrandService } from '../service/brand.service';
   selector: 'app-brand-register-edit',
   templateUrl: './brand-register-edit.component.html',
 })
-export class BrandRegisterEditComponent implements OnInit, OnChanges {
+export class BrandRegisterEditComponent
+  extends BaseValidationDirective
+  implements OnInit, OnChanges, OnDestroy
+{
   @Output() public visibleChange = new EventEmitter<boolean>();
   @Output() public onSave = new EventEmitter<boolean>();
   @Input() public visible = false;
@@ -25,7 +35,6 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
 
   public loadingVisible = false;
 
-  public form: FormGroup;
   public currentDate$: Observable<Date>;
 
   private _millisecondsToReloadTime = 30000;
@@ -34,9 +43,12 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
     private _form: FormBrand,
     private _brandService: BrandService
   ) {
+    super();
+
     this.currentDate$ = interval(this._millisecondsToReloadTime).pipe(
       startWith(0),
-      map(() => new Date())
+      map(() => new Date()),
+      takeUntil(this._unsubscribe$)
     );
   }
 
@@ -51,26 +63,8 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
     this.form.patchValue(this.brand);
   }
 
-  public fieldWithError(field: string): boolean {
-    return (
-      this.form.controls[field].errors && this.form.controls[field].touched
-    );
-  }
-
-  public getErrorMessage(field: string): string {
-    return ValidatorsService.getErrorMessage(field, this.form);
-  }
-
-  private get _isValid(): boolean {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-    }
-
-    return !this.form.invalid;
-  }
-
   public save(): void {
-    if (this._isValid) {
+    if (this.isValid) {
       this.loadingVisible = true;
 
       const service = !this.brand
@@ -78,7 +72,10 @@ export class BrandRegisterEditComponent implements OnInit, OnChanges {
         : this._brandService.edit(this.form.value);
 
       service
-        .pipe(finalize(() => (this.loadingVisible = false)))
+        .pipe(
+          finalize(() => (this.loadingVisible = false)),
+          takeUntil(this._unsubscribe$)
+        )
         .subscribe(() => {
           this.onSave.emit(true);
           this.visibleChange.emit(false);

@@ -3,12 +3,19 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable, finalize, interval, map, startWith } from 'rxjs';
-import { ValidatorsService } from 'src/app/shared/validators/validators.service';
+import {
+  Observable,
+  finalize,
+  interval,
+  map,
+  startWith,
+  takeUntil,
+} from 'rxjs';
+import { BaseValidationDirective } from 'src/app/shared/base/base-validation.directive';
 import { BrandDto } from '../../brand/model/brand.dto';
 import { ProductDto } from '../model/product.dto';
 import { FormProduct } from '../product.form';
@@ -18,7 +25,10 @@ import { ProductService } from '../service/product.service';
   selector: 'app-product-register-edit',
   templateUrl: './product-register-edit.component.html',
 })
-export class ProductRegisterEditComponent implements OnInit, OnChanges {
+export class ProductRegisterEditComponent
+  extends BaseValidationDirective
+  implements OnInit, OnChanges, OnDestroy
+{
   @Output() public visibleChange = new EventEmitter<boolean>();
   @Output() public onSave = new EventEmitter<boolean>();
   @Input() public visible = false;
@@ -27,16 +37,18 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
   public loadingVisible = false;
   public openDialogToSelectBrand = false;
 
-  public form: FormGroup;
   public currentDate$: Observable<Date>;
 
   constructor(
     private _form: FormProduct,
     private _productService: ProductService
   ) {
+    super();
+
     this.currentDate$ = interval(30000).pipe(
       startWith(0),
-      map(() => new Date())
+      map(() => new Date()),
+      takeUntil(this._unsubscribe$)
     );
   }
 
@@ -51,31 +63,13 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
     this.form.patchValue(this.product);
   }
 
-  public fieldWithError(field: string): boolean {
-    return (
-      this.form.get(field)?.errors !== null && this.form.get(field)?.touched
-    );
-  }
-
-  public getErrorMessage(field: string): string {
-    return ValidatorsService.getErrorMessage(field, this.form);
-  }
-
   public resultSelectedBrand(brand: BrandDto): void {
     this.form.patchValue({ brand: brand });
     this.openDialogToSelectBrand = false;
   }
 
-  private get _isValid(): boolean {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-    }
-
-    return !this.form.invalid;
-  }
-
   public save(): void {
-    if (this._isValid) {
+    if (this.isValid) {
       this.loadingVisible = true;
 
       const service = !this.product
@@ -83,7 +77,10 @@ export class ProductRegisterEditComponent implements OnInit, OnChanges {
         : this._productService.edit(this.form.value);
 
       service
-        .pipe(finalize(() => (this.loadingVisible = false)))
+        .pipe(
+          finalize(() => (this.loadingVisible = false)),
+          takeUntil(this._unsubscribe$)
+        )
         .subscribe(() => {
           this.onSave.emit(true);
           this.visibleChange.emit(false);

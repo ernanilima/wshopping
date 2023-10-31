@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, finalize, takeUntil } from 'rxjs';
+import { Observable, finalize, takeUntil } from 'rxjs';
+import { BaseValidationDirective } from 'src/app/shared/base/base-validation.directive';
 import { SimpleCard } from 'src/app/shared/components/card/simple-card';
 import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { ProductDto } from '../../product/model/product.dto';
@@ -10,9 +11,10 @@ import { DashboardService } from '../service/dashboard.service';
 @Component({
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-  private _unsubscribeAll = new Subject();
-
+export class DashboardComponent
+  extends BaseValidationDirective
+  implements OnInit, OnDestroy
+{
   private _observables: { name: string; showLoading: boolean }[] = [
     {
       name: this._dashboardService.findTotalBrands.name,
@@ -62,13 +64,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public openDialogResultProduct = false;
   public product?: ProductDto;
-  public form: FormGroup;
 
   constructor(
     private _dashboardService: DashboardService,
     private _productService: ProductService,
     private _formBuilder: FormBuilder
-  ) {}
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.form = this._createForm();
@@ -78,17 +81,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this._reloadTotalProductsNotFound();
   }
 
-  public ngOnDestroy(): void {
-    this._unsubscribeAll.next(true);
-    this._unsubscribeAll.complete();
-  }
-
-  public fieldWithError(field: string): boolean {
+  protected override fieldWithError(field: string): boolean {
     return this.form.get(field)?.errors !== null;
-  }
-
-  public getErrorMessage(field: string): string {
-    return ValidatorsService.getErrorMessage(field, this.form);
   }
 
   private _setShowLoading(name: string, visible: boolean): void {
@@ -146,7 +140,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .findProductByBarcode(this.form.controls['barcode'].value)
       .pipe(
         finalize(() => this._setShowLoading('findProductByBarcode', false)),
-        takeUntil(this._unsubscribeAll)
+        takeUntil(this._unsubscribe$)
       )
       .subscribe({
         next: (product) => {
