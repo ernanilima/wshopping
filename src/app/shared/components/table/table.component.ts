@@ -7,7 +7,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import {
@@ -21,7 +20,7 @@ import {
 import { BaseValidationDirective } from '../../base/base-validation.directive';
 import { Columns } from '../../columns';
 import { Page } from '../../params/page-response';
-import { ValidatorsService } from '../../validators/validators.service';
+import { FormTableFilter } from './table-filter.form';
 import { TableTitle } from './table.title';
 
 @Component({
@@ -88,13 +87,13 @@ export class TableComponent
 
   constructor(
     private _confirmationService: ConfirmationService,
-    private _formBuilder: FormBuilder
+    private _form: FormTableFilter
   ) {
     super();
   }
 
   public ngOnInit(): void {
-    this.form = this._createForm();
+    this.form = this._form.createForm();
 
     this._watchFilterGlobalValueChanges();
 
@@ -112,7 +111,7 @@ export class TableComponent
     const field = 'filterGlobal';
     this.form.controls[field].valueChanges
       .pipe(
-        map((value: string) => value.trim()),
+        map((value: string) => (value ? value.trim() : value)),
         distinctUntilChanged(),
         debounceTime(400),
         filter(() => !this.fieldWithError(field)),
@@ -163,18 +162,5 @@ export class TableComponent
 
   public selectItem(item: unknown): void {
     this.onSelectItem.emit(item);
-  }
-
-  private _createForm(): FormGroup {
-    return this._formBuilder.group({
-      filterGlobal: [
-        null,
-        [
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          Validators.pattern(ValidatorsService.urlRegex),
-        ],
-      ],
-    });
   }
 }

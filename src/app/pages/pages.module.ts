@@ -13,6 +13,7 @@ import { BrandComponent } from './brand/brand.component';
 import { FormBrand } from './brand/brand.form';
 import { BrandRegisterEditComponent } from './brand/register-edit/brand-register-edit.component';
 import { DashboardComponent } from './main/dashboard/dashboard.component';
+import { FormDashboard } from './main/dashboard/dashboard.form';
 import { MainComponent } from './main/main.component';
 import { ResultProductComponent } from './main/result/product/result-product.component';
 import { PagesRoutingModule } from './pages-routing.module';
@@ -44,6 +45,6 @@ import { ProductRegisterEditComponent } from './product/register-edit/product-re
     KeyFilterModule,
     ReactiveFormsModule,
   ],
-  providers: [FormBrand, FormProduct],
+  providers: [FormDashboard, FormBrand, FormProduct],
 })
 export class PagesModule {}

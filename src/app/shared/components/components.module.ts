@@ -9,6 +9,7 @@ import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SharedModule } from '../shared.module';
 import { SimpleCardComponent } from './card/simple-card.component';
+import { FormTableFilter } from './table/table-filter.form';
 import { TableComponent } from './table/table.component';
 
 @NgModule({
@@ -25,5 +26,6 @@ import { TableComponent } from './table/table.component';
     FieldsetModule,
     SharedModule,
   ],
+  providers: [FormTableFilter],
 })
 export class ComponentsModule {}

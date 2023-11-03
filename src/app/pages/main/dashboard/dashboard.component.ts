@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, finalize, takeUntil } from 'rxjs';
 import { BaseValidationDirective } from 'src/app/shared/base/base-validation.directive';
 import { SimpleCard } from 'src/app/shared/components/card/simple-card';
-import { ValidatorsService } from 'src/app/shared/validators/validators.service';
 import { ProductDto } from '../../product/model/product.dto';
 import { ProductService } from '../../product/service/product.service';
 import { DashboardService } from '../service/dashboard.service';
+import { FormDashboard } from './dashboard.form';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -68,13 +67,13 @@ export class DashboardComponent
   constructor(
     private _dashboardService: DashboardService,
     private _productService: ProductService,
-    private _formBuilder: FormBuilder
+    private _form: FormDashboard
   ) {
     super();
   }
 
   public ngOnInit(): void {
-    this.form = this._createForm();
+    this.form = this._form.createForm();
 
     this._reloadTotalBrands();
     this._reloadTotalProducts();
@@ -149,18 +148,5 @@ export class DashboardComponent
         },
         error: () => this._reloadTotalProductsNotFound(),
       });
-  }
-
-  private _createForm(): FormGroup {
-    return this._formBuilder.group({
-      barcode: [
-        null,
-        [
-          Validators.minLength(8),
-          Validators.maxLength(14),
-          Validators.pattern(ValidatorsService.numbersRegex),
-        ],
-      ],
-    });
   }
 }
