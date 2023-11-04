@@ -101,84 +101,84 @@ describe('BrandRegisterEditComponent', () => {
     it('should return true because the field contains an error and was touched', () => {
       component.form.controls['description'].setValue(null); // tem que ter valor
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].setValue(''); // tem que ter valor
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].setValue('1'); // tem que ter no minimo 2 caracteres
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].setValue('1234567890123456'); // tem que ter no maximo 15 caracteres
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].setValue(' 12345'); // nao pode ter espacos no inicio
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].setValue(' 12345  '); // nao pode ter espacos no inicio/final
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
 
       component.form.controls['description'].patchValue('12345  '); // nao pode ter espacos no final
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeTruthy();
+      expect((component as any).fieldWithError('description')).toBeTruthy();
     });
 
     it('should return false because the field contains an error and was not touched', () => {
       component.form.controls['description'].setValue(null);
       component.form.controls['description'].markAsUntouched();
-      expect(component.fieldWithError('description')).toBeFalsy();
+      expect((component as any).fieldWithError('description')).toBeFalsy();
     });
 
     it('should return false because the field does not contain an error and was touched (maximo de caracteres)', () => {
       component.form.controls['description'].setValue('123456789012345');
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeFalsy();
+      expect((component as any).fieldWithError('description')).toBeFalsy();
     });
 
     it('should return false because the field does not contain an error and was touched (minimo de caracteres)', () => {
       component.form.controls['description'].setValue('12');
       component.form.controls['description'].markAsTouched();
-      expect(component.fieldWithError('description')).toBeFalsy();
+      expect((component as any).fieldWithError('description')).toBeFalsy();
     });
   });
 
   describe('getErrorMessage', () => {
     it('should return message to Validators.required', () => {
       component.form.controls['description'].setValue(null);
-      expect(component.getErrorMessage('description')).toEqual(
+      expect((component as any).getErrorMessage('description')).toEqual(
         'Campo deve ser preenchido'
       );
     });
 
     it('should return message to Validators.minLength(2)', () => {
       component.form.controls['description'].setValue('1');
-      expect(component.getErrorMessage('description')).toEqual(
+      expect((component as any).getErrorMessage('description')).toEqual(
         'Campo deve conter no mínimo 2 caractere(s)'
       );
     });
 
     it('should return message to Validators.maxLength(15)', () => {
       component.form.controls['description'].setValue('1234567890123456');
-      expect(component.getErrorMessage('description')).toEqual(
+      expect((component as any).getErrorMessage('description')).toEqual(
         'Campo deve conter no máximo 15 caractere(s)'
       );
     });
 
     it('should return message to Validators.pattern(ValidatorsService.spacesRegex) (inicio)', () => {
       component.form.controls['description'].setValue(' 12345');
-      expect(component.getErrorMessage('description')).toEqual(
+      expect((component as any).getErrorMessage('description')).toEqual(
         'Campo com espaços inválidos'
       );
     });
 
     it('should return message to Validators.pattern(ValidatorsService.spacesRegex) (final)', () => {
       component.form.controls['description'].setValue('12345  ');
-      expect(component.getErrorMessage('description')).toEqual(
+      expect((component as any).getErrorMessage('description')).toEqual(
         'Campo com espaços inválidos'
       );
     });

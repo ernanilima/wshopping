@@ -12,6 +12,7 @@ import { ProductDto } from '../../product/model/product.dto';
 import { ProductService } from '../../product/service/product.service';
 import { DashboardService } from '../service/dashboard.service';
 import { DashboardComponent } from './dashboard.component';
+import { FormDashboard } from './dashboard.form';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -25,6 +26,7 @@ describe('DashboardComponent', () => {
       declarations: [DashboardComponent],
       imports: [AppModule, PagesModule, RouterTestingModule],
       providers: [
+        FormDashboard,
         {
           provide: DashboardService,
           useValue: {
@@ -231,9 +233,7 @@ describe('DashboardComponent', () => {
       } as ProductDto;
 
       componentMock.openDialogResultProduct = false;
-      componentMock._barcode = {
-        nativeElement: { value: '789102030' },
-      };
+      component.form.controls['barcode'].setValue('789102030');
 
       spyOn(productService, 'findProductByBarcode').and.returnValue(
         of(product)
@@ -254,9 +254,7 @@ describe('DashboardComponent', () => {
       const componentMock = component as any;
 
       componentMock.openDialogResultProduct = false;
-      componentMock._barcode = {
-        nativeElement: { value: '789102030' },
-      };
+      component.form.controls['barcode'].setValue('789102030');
 
       spyOn(productService, 'findProductByBarcode').and.returnValue(
         throwError(() => new Error('Error'))
