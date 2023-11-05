@@ -6,16 +6,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject, distinctUntilChanged, filter, takeUntil } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/layout.service';
-import { AppSidebarComponent } from 'src/app/layout/sidebar/app.sidebar.component';
 import { AppTopbarComponent } from 'src/app/layout/topbar/app.topbar.component';
 
 @Component({
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit, OnDestroy {
-  @ViewChild(AppSidebarComponent) private _appSidebar: AppSidebarComponent;
   @ViewChild(AppTopbarComponent) private _appTopbar: AppTopbarComponent;
 
   private _unsubscribeAll = new Subject();
@@ -28,6 +26,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this._watchMenuMobile();
+    this._watchRouterEvents();
   }
 
   public ngOnDestroy(): void {
@@ -37,23 +36,22 @@ export class MainComponent implements OnInit, OnDestroy {
 
   protected _watchMenuMobile(): void {
     this._layoutService.openOverlayForMenuMobile$
-      .pipe(takeUntil(this._unsubscribeAll))
+      .pipe(distinctUntilChanged(), takeUntil(this._unsubscribeAll))
       .subscribe(() => {
         this._renderer.listen('document', 'click', (event) => {
-          const sidebarElement = this._appSidebar.elementRef.nativeElement;
-          const topbarElement = this._appTopbar.menuButton.nativeElement;
+          const menuButtonElement = this._appTopbar.menuButton.nativeElement;
 
           const isOutsideClicked = !(
-            sidebarElement.isSameNode(event.target) ||
-            sidebarElement.contains(event.target) ||
-            topbarElement.isSameNode(event.target) ||
-            topbarElement.contains(event.target)
+            menuButtonElement.isSameNode(event.target) ||
+            menuButtonElement.contains(event.target)
           );
 
           if (isOutsideClicked) this._hideMenu();
         });
       });
+  }
 
+  protected _watchRouterEvents(): void {
     this._router.events
       .pipe(
         takeUntil(this._unsubscribeAll),
