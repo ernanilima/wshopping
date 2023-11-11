@@ -18,7 +18,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { BaseValidationDirective } from '../../base/base-validation.directive';
-import { Columns } from '../../columns';
+import { Columns } from '../../model/columns.model';
 import { Page } from '../../params/page-response';
 import { FormTableFilter } from './table-filter.form';
 import { TableTitle } from './table.title';

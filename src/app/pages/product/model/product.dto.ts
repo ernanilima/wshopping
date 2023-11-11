@@ -1,4 +1,4 @@
-import { Columns } from 'src/app/shared/columns';
+import { Columns } from 'src/app/shared/model/columns.model';
 import { BrandDto } from '../../brand/model/brand.dto';
 
 export interface ProductDto {

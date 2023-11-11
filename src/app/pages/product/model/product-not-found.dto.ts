@@ -1,4 +1,4 @@
-import { Columns } from 'src/app/shared/columns';
+import { Columns } from 'src/app/shared/model/columns.model';
 
 export interface ProductNotFoundDto {
   barcode: string;
