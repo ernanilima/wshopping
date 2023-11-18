@@ -1,32 +1,31 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, map, take } from 'rxjs';
-import { Links } from 'src/app/shared/links';
+import { BaseResourceService } from 'src/app/shared/base/base-resource.service';
+import { Links } from 'src/app/shared/model/links.model';
 import { PageBuilder } from 'src/app/shared/params/page-params';
 import { Page } from 'src/app/shared/params/page-response';
-import { FilterService } from 'src/app/shared/services/filter.service';
-import { environment } from 'src/environments/environment';
 import { ProductNotFoundDto } from '../model/product-not-found.dto';
 import { ProductDto } from '../model/product.dto';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
-  constructor(
-    private _http: HttpClient,
-    private _filterService: FilterService
-  ) {}
+export class ProductService extends BaseResourceService {
+  private baseUrl = this._sharedDataService.baseUrl;
+
+  constructor(protected _injector: Injector) {
+    super(_injector);
+  }
 
   public findAllProductsNotFound(
     pageBuilder: PageBuilder = null
   ): Observable<Page<ProductNotFoundDto[]>> {
-    const baseUrl = environment.baseUrl;
     const params = pageBuilder ? `?${pageBuilder.pageQueryString()}` : '';
 
     return this._http
       .get<Page<ProductNotFoundDto[]>>(
-        `${baseUrl}/v1/produto/nao-encontrado${params}`
+        `${this.baseUrl}/v1/produto/nao-encontrado${params}`
       )
       .pipe(take(1));
   }
@@ -39,7 +38,7 @@ export class ProductService {
 
     return this._http
       .get<Page<ProductNotFoundDto[]>>(
-        `${environment.baseUrl}/v1/produto/nao-encontrado/${barcode}?${params}`
+        `${this.baseUrl}/v1/produto/nao-encontrado/${barcode}?${params}`
       )
       .pipe(take(1));
   }
@@ -51,14 +50,14 @@ export class ProductService {
   }
 
   public register(product: ProductDto): Observable<HttpResponse<unknown>> {
-    const url = `${environment.baseUrl}/v1/produto`;
+    const url = `${this.baseUrl}/v1/produto`;
     return this._http.post(url, product, {
       observe: 'response',
     });
   }
 
   public edit(product: ProductDto): Observable<HttpResponse<unknown>> {
-    const url = `${environment.baseUrl}/v1/produto/${product.id}`;
+    const url = `${this.baseUrl}/v1/produto/${product.id}`;
     return this._http.put(url, product, {
       observe: 'response',
     });
@@ -70,7 +69,7 @@ export class ProductService {
     const params = pageBuilder.pageQueryString();
 
     return this._http
-      .get<Page<ProductDto[]>>(`${environment.baseUrl}/v1/produto?${params}`)
+      .get<Page<ProductDto[]>>(`${this.baseUrl}/v1/produto?${params}`)
       .pipe(take(1))
       .pipe(
         map((resp: Page<ProductDto[]>) => ({
@@ -88,7 +87,7 @@ export class ProductService {
 
     return this._http
       .get<Page<ProductDto[]>>(
-        `${environment.baseUrl}/v1/produto/pesquisa/${filter}?${params}`
+        `${this.baseUrl}/v1/produto/pesquisa/${filter}?${params}`
       )
       .pipe(take(1))
       .pipe(
@@ -100,9 +99,8 @@ export class ProductService {
   }
 
   public findProductByBarcode(barcode: string): Observable<ProductDto> {
-    const baseUrl = environment.baseUrl;
     return this._http
-      .get<ProductDto>(`${baseUrl}/v1/produto/codigo-barras/${barcode}`)
+      .get<ProductDto>(`${this.baseUrl}/v1/produto/codigo-barras/${barcode}`)
       .pipe(take(1));
   }
 }
